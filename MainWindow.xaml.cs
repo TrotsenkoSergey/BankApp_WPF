@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using BankApp_WPF.Models;
+using BankApp_WPF.View;
+
+namespace BankApp_WPF
+{
+    /// <summary>
+    /// Логика взаимодействия для MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private Bank bank;
+        public MainWindow()
+        {
+            InitializeComponent();
+            CreateNameForNewBankApp newWindow = new CreateNameForNewBankApp();
+            newWindow.ShowDialog();
+            bank = new Bank(newWindow.tbBankName.Text);
+            tbBankName.DataContext = bank;
+            spTimer.DataContext = bank.Timer;
+            bank.CreateDepartment(AttributeDepartment.Persons);
+            bank.CreateDepartment(AttributeDepartment.Organizations);
+        }
+
+        private void butTimer_Click(object sender, RoutedEventArgs e)
+        {
+            int months = default;
+            bool goodNum = Int32.TryParse(tbTimerNewNum.Text, out months);
+            bank.Timer.NextTime(months);
+        }
+    }
+}
