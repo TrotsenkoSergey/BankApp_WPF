@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="BankApp" Icon="/View/bank.png" Height="470" Width="950" 
         MinHeight="470" MinWidth="950" WindowStartupLocation="CenterScreen">
-
+    
     <Window.Resources>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="HeaderTemplate">
@@ -25,7 +25,7 @@
             <Setter Property="Height" Value="100"/>
         </Style>
     </Window.Resources>
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
@@ -67,7 +67,7 @@
                 </MenuItem>
             </Menu>
         </StackPanel>
-
+        
         <TextBlock x:Name ="tbBankName" Grid.Column="2" Grid.Row="0" FontSize="18" 
                    TextAlignment="Center" Text="{Binding Name}"/>
 
@@ -82,7 +82,7 @@
                      MinWidth="90" GotKeyboardFocus="tbTimerNewNum_GotKeyboardFocus"/>
             <Button x:Name="butTimer" Margin ="5 0 0 0" Content="NextPeriod" Click="butTimer_Click"/>
         </StackPanel>
-
+        
         <TabControl x:Name="tabCntrl" TabStripPlacement="Left" ItemsSource="{Binding Items}" 
                     Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" SelectionChanged="tabCntrl_SelectionChanged">
             <TabControl.ItemTemplate>

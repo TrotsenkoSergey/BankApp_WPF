@@ -1,4 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BankApp_WPF.Models
 {
@@ -30,7 +35,10 @@ namespace BankApp_WPF.Models
             accounts = new ObservableCollection<Account>();
             accounts.Add(new InitialAccount());
             initialAccount = accounts[0];
-            
+
+        private void OnBalanceChanged(decimal changedAmount)
+        {
+            this.InitialBalance += changedAmount;
         }
 
         public void DepositeMoney(decimal amount)
