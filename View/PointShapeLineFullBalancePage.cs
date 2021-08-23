@@ -1,4 +1,5 @@
-﻿using LiveCharts;
+﻿using BankApp_WPF.Models;
+using LiveCharts;
 using LiveCharts.Wpf;
 using System;
 using System.Collections.Generic;
@@ -20,22 +21,36 @@ namespace BankApp_WPF.View
     
     public partial class PointShapeLineFullBalancePage : Page
     {
+         
         public PointShapeLineFullBalancePage()
         {
 
             InitializeComponent();
 
-            Seriescollections = new SeriesCollection
+            SeriesCollections = new SeriesCollection
             {
                 new LineSeries
                 {
+                    Title = "Balance",
                     Values = new ChartValues<decimal> ()
                 },
             };
 
+            //Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
+            YFormatter = value => value.ToString("C");
             DataContext = this;
+            InitialAccount.NewBalance += InitialAccount_NewBalance;
         }
 
-        public SeriesCollection Seriescollections { get; set; }
+        private void InitialAccount_NewBalance(decimal newBalance)
+        {
+            SeriesCollections[0].Values.Add(newBalance);
+        }
+
+        //public string[] Labels { get; set; }
+
+        public Func<double, string> YFormatter { get; set; }
+
+        public SeriesCollection SeriesCollections { get; set; }
     }
 }

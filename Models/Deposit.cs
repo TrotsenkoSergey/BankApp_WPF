@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BankApp_WPF.Models
 {
 
-    class Deposit : Account
+    class Deposit : Account, INotifyPropertyChanged
     {
 
         private const decimal MONTHLY_RATE = 1.12m;
 
-        public static event Action<decimal> BalanceChanged;
+        public event Action<decimal> BalanceChanged;
+
+        public override string Name { get; set; } = "Deposit";
 
         public override decimal Balance
         {
@@ -20,7 +19,8 @@ namespace BankApp_WPF.Models
             set
             {
                 balance = value;
-                historyOfBalance.Add(value);
+                HistoryOfBalance.Add(value);
+                OnPropertyChanged();
             }
         }
 

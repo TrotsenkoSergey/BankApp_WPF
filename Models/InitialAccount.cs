@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace BankApp_WPF.Models
 {
-    public class InitialAccount : Account
+    public class InitialAccount : Account, INotifyPropertyChanged
     {
+
+        public static event Action<decimal> NewBalance;
+
+        public override string Name { get; set; } = "Initial";
+
         public override decimal Balance
         {
             get { return balance; }
             set
             {
                 balance = value;
-                historyOfBalance.Add(value);
+                HistoryOfBalance.Add(value);
+                NewBalance?.Invoke(value);
+                OnPropertyChanged();
             }
         }
+
         public InitialAccount() : base()
         {
-            Timer.AddMonths += OnTimer_NewTime;
-            Credit.BalanceChanged += OnBalanceChanged;
-            Deposit.BalanceChanged += OnBalanceChanged;
+            
         }
 
-        private void OnBalanceChanged(decimal changedAmount)
+        public void OnBalanceChanged(decimal changedAmount)
         {
             this.Balance += changedAmount;
-        }
-
-        private void OnTimer_NewTime(int obj)
-        {
-            
         }
     }
 }

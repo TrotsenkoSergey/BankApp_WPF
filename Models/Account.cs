@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BankApp_WPF.Models
 {
-    public abstract class Account 
-       
+    public abstract class Account : INotifyPropertyChanged
+
     {
         protected decimal balance;
         protected List<decimal> historyOfBalance = new List<decimal>();
-        
-        protected string Name { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public virtual string Name { get; set; }
 
         public virtual decimal Balance
         {
@@ -21,11 +20,23 @@ namespace BankApp_WPF.Models
             set
             {
                 balance = value;
-                historyOfBalance.Add(value);
+                HistoryOfBalance.Add(value);
             }
         }
-       
-        public virtual List<decimal> HistoryOfBalance { get { return historyOfBalance; } }
 
+        public virtual List<decimal> HistoryOfBalance
+        {
+            get { return historyOfBalance; }
+            private set
+            {
+                historyOfBalance = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

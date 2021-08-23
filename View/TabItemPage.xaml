@@ -18,7 +18,7 @@
             <RowDefinition Height="200*"/>
             <RowDefinition Height="200*"/>
         </Grid.RowDefinitions>
-        
+
         <ListBox x:Name="lbCustomer" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Items}" 
                  SelectionChanged="lbCustomer_SelectionChanged">
             <ListBox.ItemTemplate>
@@ -27,19 +27,37 @@
                         <StackPanel Margin="10">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Name}" FontSize="15"/>
-                                <TextBlock Text="{Binding InitialBalance, StringFormat={} {0:C}}" Margin="10 0" FontSize="15"/>
+                                <TextBlock Text="{Binding InitialBalance, ConverterCulture='ru-RU', 
+                                    StringFormat={} {0:C}}" Margin="10 0" FontSize="15"/>
                             </StackPanel>
-                            <!--<TextBlock Text="{Binding Msg}"/>-->
-                            <!--<TextBlock Text="{Binding DateTime}" Margin="10 0" FontSize="10" Foreground="Gray"/>-->
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <ListBox x:Name="lbAccounts" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Items}" 
+                 SelectionChanged="lbCustomer_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" Margin="2" BorderThickness="1" CornerRadius="5">
+                        <StackPanel Margin="10" Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontSize="15"/>
+                            <TextBlock Text="{Binding Balance, ConverterCulture='ru-RU', 
+                                    StringFormat={} {0:C}}" Margin="10 0" FontSize="15"/>
+                            <StackPanel >
+                                <TextBlock Text="History of balance"/>
+                                <ComboBox ItemsSource="{Binding HistoryOfBalance, UpdateSourceTrigger=PropertyChanged}"
+                                          Height="10" Width="50"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Frame x:Name="FrameFullBalanceGraph" Grid.Row="1" Grid.Column="0" 
                BorderBrush="Black" BorderThickness="0.5"
                NavigationUIVisibility="Hidden"/>
-        
+
     </Grid>
 </Page>

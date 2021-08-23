@@ -64,7 +64,7 @@ namespace BankApp_WPF
             Page selectedTabItem = new TabItemPage(tabCntrl.SelectedItem as Department);
             MainFrame.Content = selectedTabItem;
             (tabCntrl.SelectedItem as Department).AddNewCustomer("Sergey");
-            (tabCntrl.SelectedItem as Department).Items[0].DepositeMoney(2000m);
+            
         }
     }
 }

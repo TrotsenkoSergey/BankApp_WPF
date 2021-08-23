@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BankApp_WPF.Models
 {
-    public class Customer : IConstruct<Account>, ICredit, IDeposit
+    public class Customer : IConstruct<Account>, ICredit, IDeposit, INotifyPropertyChanged
     {
         private ObservableCollection<Account> accounts;
         private Account initialAccount;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public decimal InitialBalance
         {
@@ -18,7 +17,13 @@ namespace BankApp_WPF.Models
             private set
             {
                 initialAccount.Balance = value;
+                OnPropertyChanged();
             }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public ObservableCollection<Account> Items
@@ -35,10 +40,6 @@ namespace BankApp_WPF.Models
             accounts = new ObservableCollection<Account>();
             accounts.Add(new InitialAccount());
             initialAccount = accounts[0];
-
-        private void OnBalanceChanged(decimal changedAmount)
-        {
-            this.InitialBalance += changedAmount;
         }
 
         public void DepositeMoney(decimal amount)

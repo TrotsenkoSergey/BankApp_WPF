@@ -32,9 +32,20 @@ namespace BankApp_WPF.View
 
         private void lbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             var fullBalanceGraphPage = new PointShapeLineFullBalancePage();
             FrameFullBalanceGraph.Content = fullBalanceGraphPage;
-            fullBalanceGraphPage.Seriescollections[0].Values.Add((lbCustomer.SelectedItem as Customer).InitialBalance);
+            lbAccounts.ItemsSource = (lbCustomer.SelectedItem as Customer).Items;
+            department.Items[0].GetCredit(2000m);
+            department.Items[0].AddNewDeposit(2000m);
+            
+            var initial = (lbCustomer.SelectedItem as Customer).Items[0] as InitialAccount;
+            var credit = (lbCustomer.SelectedItem as Customer).Items[1] as Credit;
+            var deposit = (lbCustomer.SelectedItem as Customer).Items[2] as Deposit;
+
+            credit.BalanceChanged += initial.OnBalanceChanged;
+            deposit.BalanceChanged += initial.OnBalanceChanged;
         }
+                
     }
 }
