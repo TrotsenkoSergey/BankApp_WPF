@@ -1,4 +1,5 @@
 ﻿using BankApp_WPF.Models;
+using LiveCharts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,19 +33,17 @@ namespace BankApp_WPF.View
 
         private void lbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             var fullBalanceGraphPage = new PointShapeLineFullBalancePage();
             FrameFullBalanceGraph.Content = fullBalanceGraphPage;
             lbAccounts.ItemsSource = (lbCustomer.SelectedItem as Customer).Items;
-            department.Items[0].GetCredit(2000m);
-            department.Items[0].AddNewDeposit(2000m);
-            
-            var initial = (lbCustomer.SelectedItem as Customer).Items[0] as InitialAccount;
-            var credit = (lbCustomer.SelectedItem as Customer).Items[1] as Credit;
-            var deposit = (lbCustomer.SelectedItem as Customer).Items[2] as Deposit;
-
-            credit.BalanceChanged += initial.OnBalanceChanged;
-            deposit.BalanceChanged += initial.OnBalanceChanged;
+            if ((lbCustomer.SelectedItem as Customer).Items[0].HistoryOfBalance.Count != 0)
+            {
+                //fullBalanceGraphPage.SeriesCollections[0].Values = (lbCustomer.SelectedItem as Customer).Items[0].HistoryOfBalance as IChartValues;
+                foreach (var item in (lbCustomer.SelectedItem as Customer).Items[0].HistoryOfBalance)
+                {
+                    fullBalanceGraphPage.SeriesCollections[0].Values.Add(item);
+                }
+            }
         }
                 
     }

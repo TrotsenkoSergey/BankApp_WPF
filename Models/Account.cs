@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -20,7 +21,7 @@ namespace BankApp_WPF.Models
             set
             {
                 balance = value;
-                HistoryOfBalance.Add(value);
+                HistoryOfBalance.Add(Math.Round(value, 2));
             }
         }
 

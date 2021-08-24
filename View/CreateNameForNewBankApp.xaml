@@ -11,7 +11,11 @@
             <StackPanel>
                 <TextBlock>Write new Bank name:</TextBlock>
                 <TextBox x:Name="tbBankName" />
-                <Button Margin="0,20" Click="Button_Click">Create Bank</Button>
+                <Button Margin="0 20 0 20" Click="Button_Click">Create Bank</Button>
+                <WrapPanel Orientation="Horizontal">
+                    <CheckBox x:Name="checkBoxRandom"/>
+                    <TextBlock Margin ="10 0" Text="Fill in randomly for testing" />
+                </WrapPanel>
             </StackPanel>
         </GroupBox>
     </Grid>

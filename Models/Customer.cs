@@ -7,7 +7,7 @@ namespace BankApp_WPF.Models
     public class Customer : IConstruct<Account>, ICredit, IDeposit, INotifyPropertyChanged
     {
         private ObservableCollection<Account> accounts;
-        private Account initialAccount;
+        private InitialAccount initialAccount;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,8 +38,8 @@ namespace BankApp_WPF.Models
         {
             this.Name = name;
             accounts = new ObservableCollection<Account>();
-            accounts.Add(new InitialAccount());
-            initialAccount = accounts[0];
+            initialAccount = new InitialAccount();
+            accounts.Add(initialAccount);
         }
 
         public void DepositeMoney(decimal amount)
@@ -60,19 +60,23 @@ namespace BankApp_WPF.Models
             if (concreteAccount is Credit && InitialBalance >= -(concreteAccount as Credit).Balance)
             {
                 InitialBalance += (concreteAccount as Credit).Balance;
+                (concreteAccount as Credit).BalanceChanged -= initialAccount.OnBalanceChanged;
                 this.Items.Remove(concreteAccount);
             }
             else if (concreteAccount is Deposit)
             {
                 InitialBalance += (concreteAccount as Deposit).Balance;
+                (concreteAccount as Deposit).BalanceChanged -= initialAccount.OnBalanceChanged;
                 this.Items.Remove(concreteAccount);
             }
         }
 
         public void GetCredit(decimal amount)
         {
-            Items.Add(new Credit(amount));
+            Credit credit = new Credit(amount);
+            Items.Add(credit);
             InitialBalance += amount;
+            credit.BalanceChanged += initialAccount.OnBalanceChanged;
         }
 
         public void RepayLoan(object concreteCredit, decimal amount)
@@ -96,9 +100,11 @@ namespace BankApp_WPF.Models
         public void AddNewDeposit(decimal amount)
         {
             if (InitialBalance >= amount)
-            { 
-                Items.Add(new Deposit(amount));
+            {
+                Deposit deposit = new Deposit(amount);
+                Items.Add(deposit);
                 InitialBalance -= amount;
+                deposit.BalanceChanged += initialAccount.OnBalanceChanged;
             }
         }
 

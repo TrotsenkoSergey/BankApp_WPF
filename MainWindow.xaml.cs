@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using BankApp_WPF.Models;
 using BankApp_WPF.View;
 
@@ -27,24 +17,36 @@ namespace BankApp_WPF
         public MainWindow()
         {
             InitializeComponent();
-            CreateNameForNewBankApp newWindow = new CreateNameForNewBankApp();
-            newWindow.ShowDialog();
-            bank = new Bank(newWindow.tbBankName.Text);
+            CreateBank();
+
             tbBankName.DataContext = bank;
             spTimer.DataContext = bank.Timer;
             tabCntrl.ItemsSource = bank.Items;
-            
-            CreateDepartments();
-            
-                        
+
         }
 
-        private void CreateDepartments()
+        private void CreateBank()
         {
-            bank.CreateDepartment(AttributeDepartment.Persons);
-            //bank.CreateDepartment(AttributeDepartment.Organizations);
-            //bank.CreateDepartment(AttributeDepartment.VipPersons);
-            //bank.CreateDepartment(AttributeDepartment.VipOrganizations);
+            CreateNameForNewBankApp newWindow = new CreateNameForNewBankApp();
+            newWindow.ShowDialog();
+            bank = new Bank(newWindow.tbBankName.Text);
+            if ((bool)newWindow.checkBoxRandom.IsChecked)
+            {
+                bank.Name = "RANDOM_FILL_BANK";
+                bank.CreateDepartment(AttributeDepartment.Persons);
+
+                bank.Items[0].AddNewCustomer("FirstPerson_Name");
+                bank.Items[0].Items[0].GetCredit(1000m);
+                bank.Items[0].Items[0].AddNewDeposit(900m);
+
+                bank.Items[0].AddNewCustomer("SecondPerson_Name");
+                bank.Items[0].Items[1].DepositeMoney(1000m);
+                bank.Items[0].Items[1].AddNewDeposit(500m);
+                bank.Items[0].Items[1].AddNewDeposit(500m);
+
+                bank.CreateDepartment(AttributeDepartment.Organizations);
+                bank.Items[1].AddNewCustomer("ORGANIZATION");
+            }
         }
 
         private void butTimer_Click(object sender, RoutedEventArgs e)
@@ -63,8 +65,6 @@ namespace BankApp_WPF
         {
             Page selectedTabItem = new TabItemPage(tabCntrl.SelectedItem as Department);
             MainFrame.Content = selectedTabItem;
-            (tabCntrl.SelectedItem as Department).AddNewCustomer("Sergey");
-            
         }
     }
 }

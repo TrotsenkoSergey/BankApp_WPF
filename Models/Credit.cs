@@ -17,7 +17,7 @@ namespace BankApp_WPF.Models
             set
             {
                 balance = value;
-                HistoryOfBalance.Add(value);
+                HistoryOfBalance.Add(Math.Round(value, 2));
                 OnPropertyChanged();
             }
         }
