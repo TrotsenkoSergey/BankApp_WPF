@@ -22,7 +22,6 @@ namespace BankApp_WPF
             tbBankName.DataContext = bank;
             spTimer.DataContext = bank.Timer;
             tabCntrl.ItemsSource = bank.Items;
-
         }
 
         private void CreateBank()
@@ -32,20 +31,19 @@ namespace BankApp_WPF
             bank = new Bank(newWindow.tbBankName.Text);
             if ((bool)newWindow.checkBoxRandom.IsChecked)
             {
-                bank.Name = "RANDOM_FILL_BANK";
-                bank.CreateDepartment(AttributeDepartment.Persons);
+                bank.Name = "BANK_FOR_TESTING";
+                bank.CreateDepartment(AttributeDepartment.Persons)
+                    .AddNewCustomer("FirstPerson_Name")
+                    .GetCredit(1000m)
+                    .AddNewDeposit(900m);
 
-                bank.Items[0].AddNewCustomer("FirstPerson_Name");
-                bank.Items[0].Items[0].GetCredit(1000m);
-                bank.Items[0].Items[0].AddNewDeposit(900m);
+                bank.Items[0].AddNewCustomer("SecondPerson_Name")
+                             .DepositeMoney(1000m)
+                             .AddNewDeposit(500m)
+                             .AddNewDeposit(500m);
 
-                bank.Items[0].AddNewCustomer("SecondPerson_Name");
-                bank.Items[0].Items[1].DepositeMoney(1000m);
-                bank.Items[0].Items[1].AddNewDeposit(500m);
-                bank.Items[0].Items[1].AddNewDeposit(500m);
-
-                bank.CreateDepartment(AttributeDepartment.Organizations);
-                bank.Items[1].AddNewCustomer("ORGANIZATION");
+                bank.CreateDepartment(AttributeDepartment.Organizations)
+                    .AddNewCustomer("ORGANIZATION");
             }
         }
 

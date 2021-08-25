@@ -1,5 +1,6 @@
 ﻿namespace BankApp_WPF.Models
 {
+
     public enum AttributeDepartment
     {
         Persons,

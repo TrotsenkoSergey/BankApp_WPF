@@ -8,10 +8,9 @@ namespace BankApp_WPF.Models
     {
 
         private const decimal MONTHLY_RATE = 1.12m;
+        private const string DEFAULT_NAME = "Deposit";
 
         public event Action<decimal> BalanceChanged;
-
-        public override string Name { get; set; } = "Deposit";
 
         public override decimal Balance
         {
@@ -26,6 +25,7 @@ namespace BankApp_WPF.Models
 
         public Deposit(decimal amount) : base()
         {
+            Name = DEFAULT_NAME;
             this.Balance = amount;
             Timer.AddMonths += OnTimer_NewTime;
         }

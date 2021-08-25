@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace BankApp_WPF.Models
 {
@@ -19,17 +20,20 @@ namespace BankApp_WPF.Models
             private set { customers = value; }
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } 
 
         public Department(AttributeDepartment attribute) 
         {
             customers = new ObservableCollection<Customer>();
             this.attribute = attribute;
+            Name = Enum.GetName(typeof(AttributeDepartment), attribute);
         }
 
-        public void AddNewCustomer(string name)
+        public Customer AddNewCustomer(string name)
         {
-            Items.Add(new Customer(name));
+            Customer customer = new Customer(name);
+            Items.Add(customer);
+            return customer;
         }
 
         public void Remove(Customer concreteCustomer)

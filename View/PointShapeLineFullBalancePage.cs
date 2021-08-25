@@ -21,11 +21,14 @@ namespace BankApp_WPF.View
     
     public partial class PointShapeLineFullBalancePage : Page
     {
-         
-        public PointShapeLineFullBalancePage()
+
+        private Customer customer;
+
+        public PointShapeLineFullBalancePage(Customer customer)
         {
 
             InitializeComponent();
+            this.customer = customer;
 
             SeriesCollections = new SeriesCollection
             {
@@ -39,7 +42,7 @@ namespace BankApp_WPF.View
             //Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
             YFormatter = value => value.ToString("C");
             DataContext = this;
-            InitialAccount.NewBalance += InitialAccount_NewBalance;
+            this.customer.InitialAccount.NewBalance += InitialAccount_NewBalance;
         }
 
         private void InitialAccount_NewBalance(decimal newBalance)

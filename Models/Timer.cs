@@ -24,7 +24,7 @@ namespace BankApp_WPF.Models
             private set
             {
                 currentMonths = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(CurrentMonths));
             }
         }
 
@@ -34,7 +34,7 @@ namespace BankApp_WPF.Models
             private set
             {
                 currentYears = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(CurrentYears));
             }
         }
 

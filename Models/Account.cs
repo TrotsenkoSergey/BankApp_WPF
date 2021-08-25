@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 
 namespace BankApp_WPF.Models
 {
-    public abstract class Account : INotifyPropertyChanged
 
+    public abstract class Account : INotifyPropertyChanged
     {
-        protected decimal balance;
-        protected List<decimal> historyOfBalance = new List<decimal>();
+        protected private decimal balance;
+        protected private List<decimal> historyOfBalance = new List<decimal>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -31,11 +31,11 @@ namespace BankApp_WPF.Models
             private set
             {
                 historyOfBalance = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(this.HistoryOfBalance));
             }
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected private virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

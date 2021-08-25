@@ -7,7 +7,7 @@ namespace BankApp_WPF.Models
 
         private Timer timer;
         private ObservableCollection<Department> departments;
-       
+
         public Timer Timer
         {
             get { return timer; }
@@ -29,9 +29,11 @@ namespace BankApp_WPF.Models
             Name = name;
         }
 
-        public void CreateDepartment(AttributeDepartment attribute)
+        public Department CreateDepartment(AttributeDepartment attribute)
         {
-            Items.Add(new Department(attribute));
+            Department department = new Department(attribute);
+            Items.Add(department);
+            return department;
         }
 
         public void Remove(Department concreteDepartment)

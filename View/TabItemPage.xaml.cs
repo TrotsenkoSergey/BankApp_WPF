@@ -33,7 +33,7 @@ namespace BankApp_WPF.View
 
         private void lbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var fullBalanceGraphPage = new PointShapeLineFullBalancePage();
+            var fullBalanceGraphPage = new PointShapeLineFullBalancePage(lbCustomer.SelectedItem as Customer);
             FrameFullBalanceGraph.Content = fullBalanceGraphPage;
             lbAccounts.ItemsSource = (lbCustomer.SelectedItem as Customer).Items;
             if ((lbCustomer.SelectedItem as Customer).Items[0].HistoryOfBalance.Count != 0)
