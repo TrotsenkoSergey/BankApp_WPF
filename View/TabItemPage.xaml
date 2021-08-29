@@ -32,7 +32,7 @@
             <RowDefinition Height="200*"/>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="lbCustomer" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Items}" 
+        <ListBox x:Name="lbCustomers" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Items}" 
                  SelectionChanged="lbCustomer_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -57,7 +57,8 @@
                         <StackPanel Margin="10" Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" FontSize="15"/>
                             <TextBlock Text="{Binding Balance, ConverterCulture='ru-RU', 
-                                    StringFormat={} {0:C}}" Margin="10 0" FontSize="15"/>
+                                    StringFormat={} {0:C},UpdateSourceTrigger=PropertyChanged}" 
+                                       Margin="10 0" FontSize="15"/>
                             <StackPanel >
                                 <TextBlock Text="History of balance" Cursor="AppStarting">
                                     <TextBlock.ToolTip >

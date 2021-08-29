@@ -55,21 +55,23 @@
                 </MenuItem>
                 <MenuItem x:Name="miDepartments" Header="Departments" Height="20" Width="80" 
                           Style="{StaticResource MenuItem}">
-                    <MenuItem Header="Create" />
-                    <MenuItem Header="Remove" />
+                    <MenuItem Header="Create" Click="CreateMenuDepartment_Click" />
+                    <MenuItem Header="Remove" Click="RemoveMenuDepartment_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="miCustomers" Header="Customers" Height="20" Width="68" 
                           Style="{StaticResource MenuItem}">
-                    <MenuItem Header="Add" />
-                    <MenuItem Header="Remove" />
+                    <MenuItem Header="Add" Click="AddCustomer_MenuClick"/>
+                    <MenuItem Header="Remove" Click="RemoveCustomer_MenuClick"/>
                 </MenuItem>
                 <MenuItem x:Name="miAccounts" Header="Accounts" Height="20" Width="60" 
                           Style="{StaticResource MenuItem}">
-                    <MenuItem Header="MakeDeposite" />
-                    <MenuItem Header="WithDraw" />
-                    <MenuItem Header="OpenDepositeAccount" />
-                    <MenuItem Header="GetCredit" />
-                    <MenuItem Header="CloseAccount" />
+                    <MenuItem Header="Make Initial Deposite" Click="MakeInitialDeposit_MenuItemClick" />
+                    <MenuItem Header="With Draw Initial Money" Click="WithDrawInitialMoney_MenuItemClick"/>
+                    <MenuItem Header="Open Deposite Account" Click="AddNewDeposit_MenuItemClick"/>
+                    <MenuItem Header="With Draw Deposite" Click="WithDrawDeposit_MenuItemClick"/>
+                    <MenuItem Header="Get Loan (Credit)" />
+                    <MenuItem Header="Repay Loan (Credit)" />
+                    <MenuItem Header="Close Account" />
                 </MenuItem>
                 <MenuItem x:Name="miHelp" Header="Help" Height="20" Width="35" 
                           Style="{StaticResource MenuItem}">
@@ -89,7 +91,7 @@
             <TextBlock Margin ="5 0 0 0" Text="Months:"/>
             <TextBlock x:Name="tbTimerMonths" Margin ="5 0 0 0" MinWidth="20"
                        Text="{Binding CurrentMonths}" />
-            <TextBox x:Name="tbTimerNewNum" Margin ="5 0 0 0" Text="Type new period" 
+            <TextBox x:Name="tbTimerNewNum" Margin ="5 0 0 0" Text="Type period 1,2..." 
                      MinWidth="90" GotKeyboardFocus="tbTimerNewNum_GotKeyboardFocus"/>
             <Button x:Name="butTimer" Margin ="5 0 0 0" Content="NextPeriod" 
                     Click="butTimer_Click"/>
@@ -100,7 +102,10 @@
                     SelectionChanged="tabCntrl_SelectionChanged">
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TabItem Header = "{Binding Name}" />
+                    <TabItem Header = "{Binding Name}" Background="White" 
+                             GotFocus="TabItem_GotFocus">
+
+                    </TabItem>
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </TabControl>

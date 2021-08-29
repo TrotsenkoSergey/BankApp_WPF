@@ -12,17 +12,6 @@ namespace BankApp_WPF.Models
 
         public event Action<decimal> BalanceChanged;
 
-        public override decimal Balance
-        {
-            get { return balance; }
-            set
-            {
-                balance = value;
-                HistoryOfBalance.Add(Math.Round(value, 2));
-                OnPropertyChanged();
-            }
-        }
-
         public Credit(decimal amount) : base()
         {
             Name = DEFAULT_NAME;
@@ -40,6 +29,5 @@ namespace BankApp_WPF.Models
             BalanceChanged?.Invoke(tempBalance - Balance);
             Balance = tempBalance;
         }
-
     }
 }

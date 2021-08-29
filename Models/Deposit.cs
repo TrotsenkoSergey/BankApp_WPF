@@ -4,24 +4,13 @@ using System.ComponentModel;
 namespace BankApp_WPF.Models
 {
 
-    class Deposit : Account, INotifyPropertyChanged
+    public class Deposit : Account, INotifyPropertyChanged
     {
 
         private const decimal MONTHLY_RATE = 1.12m;
         private const string DEFAULT_NAME = "Deposit";
 
         public event Action<decimal> BalanceChanged;
-
-        public override decimal Balance
-        {
-            get { return balance; }
-            set
-            {
-                balance = value;
-                HistoryOfBalance.Add(Math.Round(value, 2));
-                OnPropertyChanged();
-            }
-        }
 
         public Deposit(decimal amount) : base()
         {
@@ -40,6 +29,5 @@ namespace BankApp_WPF.Models
             BalanceChanged?.Invoke(tempBalance - Balance);
             Balance = tempBalance;
         }
-
     }
 }

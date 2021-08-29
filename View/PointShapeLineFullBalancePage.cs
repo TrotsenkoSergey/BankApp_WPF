@@ -18,17 +18,21 @@ using System.Windows.Shapes;
 
 namespace BankApp_WPF.View
 {
-    
+
     public partial class PointShapeLineFullBalancePage : Page
     {
 
-        private Customer customer;
+        //private Customer customer;
+        //private Action<decimal> initAccountNewBalace;
 
-        public PointShapeLineFullBalancePage(Customer customer)
+        public PointShapeLineFullBalancePage()
         {
 
             InitializeComponent();
-            this.customer = customer;
+            //this.customer = customer;
+
+            //this.initAccountNewBalace += InitialAccount_NewBalance;
+           
 
             SeriesCollections = new SeriesCollection
             {
@@ -42,10 +46,11 @@ namespace BankApp_WPF.View
             //Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
             YFormatter = value => value.ToString("C");
             DataContext = this;
-            this.customer.InitialAccount.NewBalance += InitialAccount_NewBalance;
+            //this.customer.InitialAccount.NewBalance += InitialAccount_NewBalance;
+
         }
 
-        private void InitialAccount_NewBalance(decimal newBalance)
+        public void InitialAccount_NewBalance(decimal newBalance)
         {
             SeriesCollections[0].Values.Add(newBalance);
         }

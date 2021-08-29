@@ -6,25 +6,46 @@ using System.Runtime.CompilerServices;
 namespace BankApp_WPF.Models
 {
 
+    /// <summary>
+    /// Implements the essence of a bank account.
+    /// </summary>
     public abstract class Account : INotifyPropertyChanged
     {
         protected private decimal balance;
         protected private List<decimal> historyOfBalance = new List<decimal>();
 
+        /// <summary>
+        /// PropertyChanged event.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Name.
+        /// </summary>
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// Balance.
+        /// </summary>
         public virtual decimal Balance
         {
             get { return balance; }
-            set
+            protected set
             {
                 balance = value;
                 HistoryOfBalance.Add(Math.Round(value, 2));
+                OnPropertyChanged(nameof(Balance));
             }
         }
 
+        public virtual void OnBalanceChanged(decimal changedAmount)
+        {
+            this.Balance += changedAmount;
+        }
+
+        /// <summary>
+        /// Collection of balance change values.
+        /// </summary>
         public virtual List<decimal> HistoryOfBalance
         {
             get { return historyOfBalance; }

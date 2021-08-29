@@ -65,6 +65,15 @@
     <Compile Include="View\CreateNameForNewBankApp.xaml.cs">
       <DependentUpon>CreateNameForNewBankApp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CreateNewDepartment.xaml.cs">
+      <DependentUpon>CreateNewDepartment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerCreationWindow.xaml.cs">
+      <DependentUpon>CustomerCreationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GetSetDepositCredit.xaml.cs">
+      <DependentUpon>GetSetDepositCredit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PointShapeLineFullBalancePage.cs">
       <DependentUpon>PointShapeLineFullBalancePage.xaml</DependentUpon>
     </Compile>
@@ -84,6 +93,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\CreateNameForNewBankApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateNewDepartment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerCreationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GetSetDepositCredit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

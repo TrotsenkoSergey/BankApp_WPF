@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace BankApp_WPF.Models
 {
+    /// <summary>
+    /// Implement essence of timer.
+    /// </summary>
     public class Timer : INotifyPropertyChanged
     {
 
@@ -61,6 +64,5 @@ namespace BankApp_WPF.Models
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
