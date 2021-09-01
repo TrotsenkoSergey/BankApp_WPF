@@ -219,5 +219,33 @@ namespace BankApp_WPF
                 MessageBox.Show("You must select the department, concrete customer and concrete deposit account.");
             }
         }
+
+        private void GetCredit_MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            if (tabCntrl.SelectedItem is Department &&
+                departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer)
+            {
+                departmentsKey[tabCntrl.SelectedItem as Department].GetCredit_MenuItemClick(this);
+            }
+            else
+            {
+                MessageBox.Show("You must select the department and customer.");
+            }
+        }
+
+        private void RepayCredit_MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            if (tabCntrl.SelectedItem is Department &&
+                departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer &&
+                departmentsKey[tabCntrl.SelectedItem as Department].lbAccounts.SelectedItem is Credit)
+            {
+                departmentsKey[tabCntrl.SelectedItem as Department].RepayCredit_MenuItemClick(this);
+            }
+            else
+            {
+                MessageBox.Show("You must select the department, concrete customer and concrete credit account.");
+            }
+        }
+
     }
 }

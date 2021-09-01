@@ -167,7 +167,37 @@ namespace BankApp_WPF.View
             }
         }
 
-        
+        public void GetCredit_MenuItemClick(MainWindow window)
+        {
+            var customer = lbCustomers.SelectedItem as Customer;
+
+            var accountWindow = new GetSetDepositCredit();
+            accountWindow.Owner = window;
+            bool isClicked = (bool)accountWindow.ShowDialog();
+            if (isClicked)
+            {
+                customer.GetCredit(accountWindow.Amount);
+            }
+        }
+
+        public void RepayCredit_MenuItemClick(MainWindow window)
+        {
+            var customer = lbCustomers.SelectedItem as Customer;
+            var credit = lbAccounts.SelectedItem as Credit;
+
+            var accountWindow = new GetSetDepositCredit();
+            accountWindow.Owner = window;
+            bool isClicked = (bool)accountWindow.ShowDialog();
+            if (isClicked)
+            {
+                if (-credit.Balance >= accountWindow.Amount && customer.InitialBalance >= accountWindow.Amount)
+                {
+                    customer.RepayLoan(credit, accountWindow.Amount);
+                }
+                else MessageBox.Show("There is not enough money on your initisl deposit to repay loan OR\n" +
+                    "credit account Balance less then amount you want to repay.");
+            }
+        }
 
     }
 }

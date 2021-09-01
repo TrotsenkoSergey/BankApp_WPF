@@ -99,6 +99,7 @@ namespace BankApp_WPF.Models
             if (InitialBalance >= amount && amount > 0)
             {
                 (concreteCredit as Credit).OnBalanceChanged(amount);
+                this.InitialBalance = -amount;
             }
             return this;
         }
