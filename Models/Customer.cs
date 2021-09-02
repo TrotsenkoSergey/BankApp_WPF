@@ -66,13 +66,13 @@ namespace BankApp_WPF.Models
         {
             if (concreteAccount is Credit && InitialBalance >= -(concreteAccount as Credit).Balance)
             {
-                InitialBalance += (concreteAccount as Credit).Balance;
+                InitialBalance = (concreteAccount as Credit).Balance;
                 (concreteAccount as Credit).BalanceChanged -= initialAccount.OnBalanceChanged;
                 this.Items.Remove(concreteAccount);
             }
             else if (concreteAccount is Deposit)
             {
-                InitialBalance += (concreteAccount as Deposit).Balance;
+                InitialBalance = (concreteAccount as Deposit).Balance;
                 (concreteAccount as Deposit).BalanceChanged -= initialAccount.OnBalanceChanged;
                 this.Items.Remove(concreteAccount);
             }

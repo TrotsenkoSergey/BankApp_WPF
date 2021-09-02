@@ -71,7 +71,7 @@
                     <MenuItem Header="With Draw Deposite" Click="WithDrawDeposit_MenuItemClick"/>
                     <MenuItem Header="Get Loan (Credit)" Click="GetCredit_MenuItemClick"/>
                     <MenuItem Header="Repay Loan (Credit)" Click="RepayCredit_MenuItemClick"/>
-                    <MenuItem Header="Close Account" />
+                    <MenuItem Header="Close Account" Click="CloseAccount_MenuItemClick"/>
                 </MenuItem>
                 <MenuItem x:Name="miHelp" Header="Help" Height="20" Width="35" 
                           Style="{StaticResource MenuItem}">

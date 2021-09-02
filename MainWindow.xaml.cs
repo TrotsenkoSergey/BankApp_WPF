@@ -35,6 +35,7 @@ namespace BankApp_WPF
             CreateNameForNewBankApp newWindow = new CreateNameForNewBankApp();
             newWindow.ShowDialog();
             bank = new Bank(newWindow.tbBankName.Text);
+
             if ((bool)newWindow.checkBoxRandom.IsChecked)
             {
                 bank.Name = "BANK_FOR_TESTING";
@@ -169,7 +170,7 @@ namespace BankApp_WPF
 
         private void MakeInitialDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
-            if (tabCntrl.SelectedItem is Department && 
+            if (tabCntrl.SelectedItem is Department &&
                 departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer)
             {
                 departmentsKey[tabCntrl.SelectedItem as Department].MakeInitialDeposit_MenuItemClick(this);
@@ -182,7 +183,7 @@ namespace BankApp_WPF
 
         public void WithDrawInitialMoney_MenuItemClick(object sender, RoutedEventArgs e)
         {
-            if (tabCntrl.SelectedItem is Department && 
+            if (tabCntrl.SelectedItem is Department &&
                 departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer)
             {
                 departmentsKey[tabCntrl.SelectedItem as Department].WithDrawInitialMoney_MenuItemClick(this);
@@ -195,7 +196,7 @@ namespace BankApp_WPF
 
         private void AddNewDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
-            if (tabCntrl.SelectedItem is Department && 
+            if (tabCntrl.SelectedItem is Department &&
                 departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer)
             {
                 departmentsKey[tabCntrl.SelectedItem as Department].AddNewDeposit_MenuItemClick(this);
@@ -208,8 +209,8 @@ namespace BankApp_WPF
 
         private void WithDrawDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
-            if (tabCntrl.SelectedItem is Department && 
-                departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer && 
+            if (tabCntrl.SelectedItem is Department &&
+                departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer &&
                 departmentsKey[tabCntrl.SelectedItem as Department].lbAccounts.SelectedItem is Deposit)
             {
                 departmentsKey[tabCntrl.SelectedItem as Department].WithDrawDeposit_MenuItemClick(this);
@@ -244,6 +245,20 @@ namespace BankApp_WPF
             else
             {
                 MessageBox.Show("You must select the department, concrete customer and concrete credit account.");
+            }
+        }
+
+        private void CloseAccount_MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            if (tabCntrl.SelectedItem is Department &&
+                departmentsKey[tabCntrl.SelectedItem as Department].lbCustomers.SelectedItem is Customer &&
+                departmentsKey[tabCntrl.SelectedItem as Department].lbAccounts.SelectedItem is Account)
+            {
+                departmentsKey[tabCntrl.SelectedItem as Department].CloseAccount_MenuItemClick();
+            }
+            else
+            {
+                MessageBox.Show("You must select the department, concrete customer and concrete account.");
             }
         }
 

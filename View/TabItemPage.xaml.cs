@@ -194,10 +194,29 @@ namespace BankApp_WPF.View
                 {
                     customer.RepayLoan(credit, accountWindow.Amount);
                 }
-                else MessageBox.Show("There is not enough money on your initisl deposit to repay loan OR\n" +
-                    "credit account Balance less then amount you want to repay.");
+                else MessageBox.Show("There is not enough money on your initial deposit to repay loan OR\n" +
+                    "|credit account Balance| less then amount you want to repay.");
             }
         }
 
+        public void CloseAccount_MenuItemClick()
+        {
+            var customer = lbCustomers.SelectedItem as Customer;
+            var account = lbAccounts.SelectedItem as Account;
+
+            if (account is Credit)
+            {
+                if (-account.Balance > customer.InitialBalance) MessageBox.Show("There is not enough money on your initial deposit to close account.");
+                else customer.Remove(account);
+            }
+            else if (account is Deposit)
+            {
+                customer.Remove(account);
+            }
+            else if (account is InitialAccount)
+            {
+                MessageBox.Show("You cannot close initial account.");
+            }
+        }
     }
 }
