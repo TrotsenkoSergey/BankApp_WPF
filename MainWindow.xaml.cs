@@ -47,7 +47,7 @@ namespace BankApp_WPF
                           .GetCredit(1000m)
                           .AddNewDeposit(900m);
                 departmentsKey[department].AddRandomCustomer("SecondPerson_Name")
-                         .DepositeInitialMoney(1000m)
+                         .FundInitialAccount(1000m)
                          .AddNewDeposit(500m)
                          .AddNewDeposit(500m);
 

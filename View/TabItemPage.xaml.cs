@@ -111,7 +111,7 @@ namespace BankApp_WPF.View
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
             {
-                customer.DepositeInitialMoney(accountWindow.Amount);
+                customer.FundInitialAccount(accountWindow.Amount);
             }
         }
 
@@ -126,7 +126,7 @@ namespace BankApp_WPF.View
             {
                 if (customer.InitialBalance >= accountWindow.Amount)
                 {
-                    customer.WithDrawInitialMoney(accountWindow.Amount);
+                    customer.WithDrawInitialAccount(accountWindow.Amount);
                 }
                 else MessageBox.Show("You don't have enough money, you can get a loan first.");
             }

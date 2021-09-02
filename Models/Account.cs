@@ -30,7 +30,7 @@ namespace BankApp_WPF.Models
         public virtual decimal Balance
         {
             get { return balance; }
-            protected set
+            protected private set
             {
                 balance = value;
                 HistoryOfBalance.Add(Math.Round(value, 2));
@@ -38,6 +38,10 @@ namespace BankApp_WPF.Models
             }
         }
 
+        /// <summary>
+        /// Changes the current balance by a certain value.
+        /// </summary>
+        /// <param name="changedAmount"></param>
         public virtual void OnBalanceChanged(decimal changedAmount)
         {
             this.Balance += changedAmount;

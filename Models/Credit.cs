@@ -3,15 +3,24 @@ using System.ComponentModel;
 
 namespace BankApp_WPF.Models
 {
-
+    /// <summary>
+    /// Credit account.
+    /// </summary>
     public class Credit : Account, INotifyPropertyChanged
     {
 
         private const decimal MONTHLY_RATE = 1.12m;
         private const string DEFAULT_NAME = "Credit";
 
+        /// <summary>
+        /// Balance changed event.
+        /// </summary>
         public event Action<decimal> BalanceChanged;
 
+        /// <summary>
+        /// Constructor of a new credit entity.
+        /// </summary>
+        /// <param name="amount"></param>
         public Credit(decimal amount) : base()
         {
             Name = DEFAULT_NAME;
@@ -19,6 +28,10 @@ namespace BankApp_WPF.Models
             Timer.AddMonths += OnTimer_NewTime;
         }
 
+        /// <summary>
+        /// Handles the time change event.
+        /// </summary>
+        /// <param name="monthsCount"></param>
         private void OnTimer_NewTime(int monthsCount)
         {
             decimal tempBalance = Balance;

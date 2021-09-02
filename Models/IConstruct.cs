@@ -4,7 +4,7 @@ namespace BankApp_WPF.Models
 {
 
     /// <summary>
-    /// Provides the ability to construct nested classes.
+    /// Provides the ability to construct nested objects.
     /// </summary>
     /// <typeparam name="T">Nested class.</typeparam>
     public interface IConstruct<T>
@@ -20,7 +20,7 @@ namespace BankApp_WPF.Models
         string Name { get; set; }
 
         /// <summary>
-        /// Remove item.
+        /// Remove nested item.
         /// </summary>
         /// <param name="item"></param>
         void Remove(T item);

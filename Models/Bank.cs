@@ -7,7 +7,6 @@ namespace BankApp_WPF.Models
     /// </summary>
     public class Bank : IConstruct<Department>
     {
-
         private Timer timer;
         private ObservableCollection<Department> departments;
 
@@ -35,7 +34,7 @@ namespace BankApp_WPF.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// Constructor.
+        /// Creates a bank and a new entity of time.
         /// </summary>
         /// <param name="name"></param>
         public Bank(string name)
@@ -45,6 +44,11 @@ namespace BankApp_WPF.Models
             Name = name;
         }
 
+        /// <summary>
+        /// Create concrete department.
+        /// </summary>
+        /// <param name="attribute">department attribute</param>
+        /// <returns></returns>
         public Department CreateDepartment(AttributeDepartment attribute)
         {
             Department department = new Department(attribute);
@@ -52,6 +56,10 @@ namespace BankApp_WPF.Models
             return department;
         }
 
+        /// <summary>
+        /// Remove concrete department.
+        /// </summary>
+        /// <param name="concreteDepartment"></param>
         public void Remove(Department concreteDepartment)
         {
             Items.Remove(concreteDepartment);
