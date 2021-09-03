@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -259,6 +261,50 @@ namespace BankApp_WPF
             else
             {
                 MessageBox.Show("You must select the department, concrete customer and concrete account.");
+            }
+        }
+
+        /// <summary>
+        /// Calls NotePad and opens the HelpENG.txt file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HelpENG_Click(object sender, RoutedEventArgs e)
+        {
+            string s = Directory.GetCurrentDirectory();
+            Process.Start("notepad.exe", "HelpENG.txt");
+        }
+
+        /// <summary>
+        /// Calls NotePad and opens the HelpRUS.txt file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void HelpRUS_Click(object sender, RoutedEventArgs e)
+        {
+            string s = Directory.GetCurrentDirectory();
+            Process.Start("notepad.exe", "HelpRUS.txt");
+        }
+
+        /// <summary>
+        /// Shows copyright. And allows you to follow the link.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Reference_Click(object sender, RoutedEventArgs e)
+        {
+            string link = @"https://github.com/TrotsenkoSergey/BankApp_WPF";
+            var result = MessageBox.Show(
+                "Copyright (c) Sergey Trotsenko. All rights reserved.\n\n" +
+                $"{link}\n\n" +
+                "Click OK button if you want to link...",
+                "Reference",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Information
+                );
+            if (result == MessageBoxResult.OK)
+            {
+                Process.Start($"{link}");
             }
         }
 

@@ -155,7 +155,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="HelpENG.txt" />
+    <Resource Include="HelpRUS.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="View\bank.png" />
   </ItemGroup>

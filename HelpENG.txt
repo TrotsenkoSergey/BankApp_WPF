@@ -1,0 +1,18 @@
+HELP - HELP for working with the application
+
+      1. This program is the simplest prototype of the system of departments, clients and accounts of a particular bank.
+After starting the program, you will be prompted to randomly fill in the bank elements for test viewing.
+      
+      2. The user interface is presented with several handy tools:
+	1) pop-up menus in the upper left part of the window will help you work with help, manage Departments, Clients and Accounts;
+      	2) after creating a department, you can select it in the left part of the window using TabItem;
+      	3) the list of clients will appear after selecting a specific department in the form of a list; after adding a client, a main account is immediately created for it by default;
+	4) a list of accounts will appear after selecting a specific client. Each account has its own history and when you hover the mouse, you can view it in the context menu. Accounts are divided into main, deposit and credit:
+	- master account. Created when a new client of a specific department is added, it can be replenished from outside, as well as withdrawn funds from it. All interaction with other accounts takes place through the main account.
+	- deposit. It can be opened if there is money on the main account, by default it changes “monthly” depending on the available coefficient. The deposit can be closed - then the entire balance of funds will be placed on the main account.
+	- credit. Can be received or redeemed. Also depends on and has interaction with the G / L account. Those. when taking out a loan, the main account is replenished, when repayment - the balance of the main account is reduced.
+Any account (except the main one) can be closed. At the same time, there is also interaction with the main account;
+	5) there is a time control panel in the upper right corner of the window. Consists of a button and a box. When you enter a value from 1 to ... in the box, you change the time (months). It is enough to enter 1 and press the button, after which all bank accounts for each client will change depending on the purpose and logic;
+	6) the interface also has a dynamically changing graph with the indicator of the main account balance of a particular bank client.
+      
+      P.S. It should be noted that each element of the user interface changes dynamically depending on changes in other elements through events, etc.

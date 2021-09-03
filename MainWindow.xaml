@@ -51,7 +51,7 @@
                           Style="{StaticResource MenuItem}">
                     <MenuItem x:Name="miLoad" Header="Load" />
                     <MenuItem x:Name="miExit" Header ="Save" />
-                    <MenuItem x:Name="miReference" Header="Reference" />
+                    <MenuItem x:Name="miReference" Header="Reference" Click="Reference_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="miDepartments" Header="Departments" Height="20" Width="80" 
                           Style="{StaticResource MenuItem}">
@@ -75,8 +75,8 @@
                 </MenuItem>
                 <MenuItem x:Name="miHelp" Header="Help" Height="20" Width="35" 
                           Style="{StaticResource MenuItem}">
-                    <MenuItem Header="ENG" />
-                    <MenuItem Header="RUS" />
+                    <MenuItem Header="ENG" Click="HelpENG_Click"/>
+                    <MenuItem Header="RUS" Click="HelpRUS_Click"/>
                 </MenuItem>
             </Menu>
         </StackPanel>
