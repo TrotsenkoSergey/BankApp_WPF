@@ -1,12 +1,12 @@
-﻿using System;
+﻿using BankApp_WPF.Models;
+using BankApp_WPF.View;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BankApp_WPF.Models;
-using BankApp_WPF.View;
 
 namespace BankApp_WPF
 {

@@ -75,7 +75,7 @@
       <DependentUpon>GetSetDepositCredit.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PointShapeLineFullBalancePage.cs">
-      <DependentUpon>PointShapeLineFullBalancePage.xaml</DependentUpon>
+      <DependentUpon>PointShapeLinePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TabItemPage.xaml.cs">
       <DependentUpon>TabItemPage.xaml</DependentUpon>
@@ -108,7 +108,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PointShapeLineFullBalancePage.xaml">
+    <Page Include="View\PointShapeLinePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

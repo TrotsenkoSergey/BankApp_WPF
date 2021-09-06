@@ -1,29 +1,15 @@
 ﻿using BankApp_WPF.Models;
-using LiveCharts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BankApp_WPF.View
 {
-    /// <summary>
-    /// Логика взаимодействия для TabItemPage.xaml
-    /// </summary>
+    
     public partial class TabItemPage : Page
     {
         private Department department;
-        private Dictionary<Customer, PointShapeLineFullBalancePage> customerKey = new Dictionary<Customer, PointShapeLineFullBalancePage>();
+        private Dictionary<Customer, PointShapeLinePage> customerKey = new Dictionary<Customer, PointShapeLinePage>();
 
         public TabItemPage(Department department)
         {
@@ -35,7 +21,7 @@ namespace BankApp_WPF.View
         public Customer AddRandomCustomer(string name)
         {
             Customer customer = department.AddNewCustomer(name);
-            var fullBalanceGraphPage = new PointShapeLineFullBalancePage();
+            var fullBalanceGraphPage = new PointShapeLinePage();
             customer.InitialAccount.NewBalance += fullBalanceGraphPage.InitialAccount_NewBalance;
             customerKey.Add(customer, fullBalanceGraphPage);
             return customer;
@@ -79,7 +65,7 @@ namespace BankApp_WPF.View
             if (isClicked)
             {
                 var customer = department.AddNewCustomer(customerAddingWindow.tbCustomerName.Text);
-                var customerBalanceGraphPage = new PointShapeLineFullBalancePage();
+                var customerBalanceGraphPage = new PointShapeLinePage();
                 customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
                 customerKey.Add(customer, customerBalanceGraphPage);
             }
@@ -91,14 +77,6 @@ namespace BankApp_WPF.View
             {
                 FrameFullBalanceGraph.Content = customerKey[lbCustomers.SelectedItem as Customer];
                 lbAccounts.ItemsSource = (lbCustomers.SelectedItem as Customer).Items;
-
-                //if ((lbCustomers.SelectedItem as Customer).Items[0].HistoryOfBalance.Count != 0)
-                //{
-                //    foreach (var item in (lbCustomers.SelectedItem as Customer).Items[0].HistoryOfBalance)
-                //    {
-                //        fullBalanceGraphPage.SeriesCollections[0].Values.Add(item);
-                //    }
-                //}
             }
         }
 

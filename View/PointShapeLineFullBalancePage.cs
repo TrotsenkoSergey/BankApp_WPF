@@ -1,38 +1,24 @@
-﻿using BankApp_WPF.Models;
-using LiveCharts;
+﻿using LiveCharts;
 using LiveCharts.Wpf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BankApp_WPF.View
 {
 
-    public partial class PointShapeLineFullBalancePage : Page
+    public partial class PointShapeLinePage
     {
 
         //private Customer customer;
         //private Action<decimal> initAccountNewBalace;
 
-        public PointShapeLineFullBalancePage()
+        public PointShapeLinePage()
         {
 
             InitializeComponent();
             //this.customer = customer;
 
             //this.initAccountNewBalace += InitialAccount_NewBalance;
-           
+
 
             SeriesCollections = new SeriesCollection
             {
@@ -57,7 +43,7 @@ namespace BankApp_WPF.View
 
         //public string[] Labels { get; set; }
 
-        public Func<double, string> YFormatter { get; set; }
+        public Func<decimal, string> YFormatter { get; set; }
 
         public SeriesCollection SeriesCollections { get; set; }
     }

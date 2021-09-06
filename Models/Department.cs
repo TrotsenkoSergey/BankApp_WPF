@@ -32,13 +32,13 @@ namespace BankApp_WPF.Models
         /// <summary>
         /// Department name.
         /// </summary>
-        public string Name { get; set; } 
+        public string Name { get; set; }
 
         /// <summary>
         /// Department constructor.
         /// </summary>
         /// <param name="attribute"></param>
-        public Department(AttributeDepartment attribute) 
+        public Department(AttributeDepartment attribute)
         {
             customers = new ObservableCollection<Customer>();
             this.attribute = attribute;

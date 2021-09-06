@@ -9,7 +9,7 @@ namespace BankApp_WPF.Models
     public class InitialAccount : Account, INotifyPropertyChanged
     {
         private const string DEFAULT_NAME = "Initial";
-       
+
         /// <summary>
         /// New balance event.
         /// </summary>
