@@ -271,8 +271,11 @@ namespace BankApp_WPF
         /// <param name="e"></param>
         private void HelpENG_Click(object sender, RoutedEventArgs e)
         {
-            string s = Directory.GetCurrentDirectory();
-            Process.Start("notepad.exe", "HelpENG.txt");
+            //string s = Directory.GetCurrentDirectory();
+            //Process.Start("notepad.exe", "HelpENG.txt");
+            var directInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+            string combined = Path.Combine(directInfo.Parent.Parent.FullName, "HelpENG.txt");
+            Process.Start("notepad.exe", combined);
         }
 
         /// <summary>
@@ -282,8 +285,11 @@ namespace BankApp_WPF
         /// <param name="e"></param>
         private void HelpRUS_Click(object sender, RoutedEventArgs e)
         {
-            string s = Directory.GetCurrentDirectory();
-            Process.Start("notepad.exe", "HelpRUS.txt");
+            //string s = Directory.GetCurrentDirectory();
+            //Process.Start("notepad.exe", "HelpRUS.txt");
+            var directInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+            string combined = Path.Combine(directInfo.Parent.Parent.FullName, "HelpRUS.txt");
+            Process.Start("notepad.exe", combined);
         }
 
         /// <summary>
