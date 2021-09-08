@@ -2,16 +2,13 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Bank client entity.
     /// </summary>
     public class Customer : IConstruct<Account>, ICredit, IDeposit, INotifyPropertyChanged
     {
-        private ObservableCollection<Account> accounts;
-        private InitialAccount initialAccount;
-
         /// <summary>
         /// PropertyChanged event.
         /// </summary>
@@ -20,34 +17,30 @@ namespace BankApp_WPF.Models
         /// <summary>
         /// Access to the main (initial) account.
         /// </summary>
-        public InitialAccount InitialAccount { get { return initialAccount; } }
+        public InitialAccount InitialAccount { get; private set; }
 
         /// <summary>
         /// Balance of the main (initial) account.
         /// </summary>
         public decimal InitialBalance
         {
-            get { return initialAccount.Balance; }
+            get => InitialAccount.Balance;
             private set
             {
-                initialAccount.OnBalanceChanged(value);
+                InitialAccount.OnBalanceChanged(value);
                 OnPropertyChanged(nameof(InitialBalance));
             }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
         /// Accounts collection.
         /// </summary>
-        public ObservableCollection<Account> Items
-        {
-            get { return accounts; }
-            private set { accounts = value; }
-        }
+        public ObservableCollection<Account> Items { get; private set; }
 
         /// <summary>
         /// Customer name.
@@ -60,10 +53,10 @@ namespace BankApp_WPF.Models
         /// <param name="name"></param>
         public Customer(string name)
         {
-            this.Name = name;
-            accounts = new ObservableCollection<Account>();
-            initialAccount = new InitialAccount();
-            accounts.Add(initialAccount);
+            Name = name;
+            Items = new ObservableCollection<Account>();
+            InitialAccount = new InitialAccount();
+            Items.Add(InitialAccount);
         }
 
         /// <summary>
@@ -75,7 +68,7 @@ namespace BankApp_WPF.Models
         {
             if (amount > 0)
             {
-                this.InitialBalance = amount;
+                InitialBalance = amount;
             }
             return this;
         }
@@ -89,7 +82,7 @@ namespace BankApp_WPF.Models
         {
             if (amount > 0 && InitialBalance >= amount)
             {
-                this.InitialBalance = -amount;
+                InitialBalance = -amount;
             }
             return this;
         }
@@ -100,19 +93,19 @@ namespace BankApp_WPF.Models
         /// <param name="concreteAccount"></param>
         public void Remove(Account concreteAccount)
         {
-            if (concreteAccount is Credit && InitialBalance >= -(concreteAccount as Credit).Balance)
+            if (concreteAccount is Credit accountCredit && InitialBalance >= -accountCredit.Balance)
             {
-                InitialBalance = (concreteAccount as Credit).Balance;
-                (concreteAccount as Credit).BalanceChanged -= initialAccount.OnBalanceChanged;
-                this.Items.Remove(concreteAccount);
+                InitialBalance = accountCredit.Balance;
+                accountCredit.BalanceChanged -= InitialAccount.OnBalanceChanged;
+                this.Items.Remove(accountCredit);
             }
-            else if (concreteAccount is Deposit)
+            else if (concreteAccount is Deposit accountDeposit)
             {
-                InitialBalance = (concreteAccount as Deposit).Balance;
-                (concreteAccount as Deposit).BalanceChanged -= initialAccount.OnBalanceChanged;
-                this.Items.Remove(concreteAccount);
+                InitialBalance = accountDeposit.Balance;
+                accountDeposit.BalanceChanged -= InitialAccount.OnBalanceChanged;
+                this.Items.Remove(accountDeposit);
             }
-            else
+            else // concreteAccount is InitialAccount
             {
                 this.Items.Remove(concreteAccount);
             }
@@ -130,7 +123,7 @@ namespace BankApp_WPF.Models
                 Credit credit = new Credit(amount);
                 Items.Add(credit);
                 InitialBalance = amount;
-                credit.BalanceChanged += initialAccount.OnBalanceChanged;
+                credit.BalanceChanged += InitialAccount.OnBalanceChanged;
             }
             return this;
         }
@@ -146,7 +139,7 @@ namespace BankApp_WPF.Models
             if (InitialBalance >= amount && amount > 0)
             {
                 (concreteCredit as Credit).OnBalanceChanged(amount);
-                this.InitialBalance = -amount;
+                InitialBalance = -amount;
             }
             return this;
         }
@@ -162,7 +155,7 @@ namespace BankApp_WPF.Models
             if (amount > 0 && (concreteDeposit as Deposit).Balance >= amount)
             {
                 (concreteDeposit as Deposit).OnBalanceChanged(-amount);
-                this.InitialBalance = amount;
+                InitialBalance = amount;
             }
             return this;
         }
@@ -179,7 +172,7 @@ namespace BankApp_WPF.Models
                 Deposit deposit = new Deposit(amount);
                 Items.Add(deposit);
                 InitialBalance = -amount;
-                deposit.BalanceChanged += initialAccount.OnBalanceChanged;
+                deposit.BalanceChanged += InitialAccount.OnBalanceChanged;
             }
             return this;
         }

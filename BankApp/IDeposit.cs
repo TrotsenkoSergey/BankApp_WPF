@@ -1,4 +1,4 @@
-﻿namespace BankApp_WPF.Models
+﻿namespace BankApp
 {
     /// <summary>
     /// Provides an opportunity to place a deposit.

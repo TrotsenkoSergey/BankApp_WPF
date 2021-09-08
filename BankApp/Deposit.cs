@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Deposit account.
     /// </summary>
-    public class Deposit : Account, INotifyPropertyChanged
+    public class Deposit : Account
     {
 
         private const decimal MONTHLY_RATE = 1.12m;
@@ -24,7 +23,7 @@ namespace BankApp_WPF.Models
         public Deposit(decimal amount) : base()
         {
             Name = DEFAULT_NAME;
-            this.Balance = amount;
+            Balance = amount;
             Timer.AddMonths += OnTimer_NewTime;
         }
 

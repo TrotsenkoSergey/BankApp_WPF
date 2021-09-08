@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Initial (main) account.
     /// </summary>
-    public class InitialAccount : Account, INotifyPropertyChanged
+    public class InitialAccount : Account
     {
         private const string DEFAULT_NAME = "Initial";
 
@@ -20,8 +19,8 @@ namespace BankApp_WPF.Models
         /// </summary>
         public override decimal Balance
         {
-            get { return balance; }
-            protected private set
+            get => balance;
+            private protected set
             {
                 balance = value;
                 HistoryOfBalance.Add(Math.Round(value, 2));
@@ -33,7 +32,7 @@ namespace BankApp_WPF.Models
         /// <summary>
         /// Constructor of a new initial account entity.
         /// </summary>
-        public InitialAccount() : base()
+        public InitialAccount()
         {
             Name = DEFAULT_NAME;
         }

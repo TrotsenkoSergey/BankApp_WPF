@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Represents a time scrolling prototype.
@@ -39,7 +39,7 @@ namespace BankApp_WPF.Models
         /// </summary>
         public int CurrentMonths
         {
-            get { return currentMonths; }
+            get => currentMonths;
             private set
             {
                 currentMonths = value;
@@ -52,7 +52,7 @@ namespace BankApp_WPF.Models
         /// </summary>
         public int CurrentYears
         {
-            get { return currentYears; }
+            get => currentYears;
             private set
             {
                 currentYears = value;
@@ -84,7 +84,7 @@ namespace BankApp_WPF.Models
             AddMonths?.Invoke(addmonths);
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

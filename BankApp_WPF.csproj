@@ -64,7 +64,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\InitialAccount.cs" />
     <Compile Include="View\CreateNameForNewBankApp.xaml.cs">
       <DependentUpon>CreateNameForNewBankApp.xaml</DependentUpon>
     </Compile>
@@ -121,17 +120,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Account.cs" />
-    <Compile Include="Models\AttributeDepartment.cs" />
-    <Compile Include="Models\Bank.cs" />
-    <Compile Include="Models\Credit.cs" />
-    <Compile Include="Models\Customer.cs" />
-    <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\Deposit.cs" />
-    <Compile Include="Models\IConstruct.cs" />
-    <Compile Include="Models\IDeposit.cs" />
-    <Compile Include="Models\ICredit.cs" />
-    <Compile Include="Models\Timer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,6 +152,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\bank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="BankApp\BankApp.csproj">
+      <Project>{8298b857-b3d6-4a45-962f-fed62f01a4ad}</Project>
+      <Name>BankApp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
