@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
-
     /// <summary>
     /// Implements the essence of a bank account.
     /// </summary>
     public abstract class Account : INotifyPropertyChanged
     {
-        protected private decimal balance;
-        protected private List<decimal> historyOfBalance = new List<decimal>();
+        private protected decimal balance;
+        private protected List<decimal> historyOfBalance = new List<decimal>();
 
         /// <summary>
         /// PropertyChanged event.
@@ -29,8 +28,8 @@ namespace BankApp_WPF.Models
         /// </summary>
         public virtual decimal Balance
         {
-            get { return balance; }
-            protected private set
+            get => balance;
+            private protected set
             {
                 balance = value;
                 HistoryOfBalance.Add(Math.Round(value, 2));
@@ -44,7 +43,7 @@ namespace BankApp_WPF.Models
         /// <param name="changedAmount"></param>
         public virtual void OnBalanceChanged(decimal changedAmount)
         {
-            this.Balance += changedAmount;
+            Balance += changedAmount;
         }
 
         /// <summary>
@@ -52,17 +51,17 @@ namespace BankApp_WPF.Models
         /// </summary>
         public virtual List<decimal> HistoryOfBalance
         {
-            get { return historyOfBalance; }
+            get => historyOfBalance;
             private set
             {
                 historyOfBalance = value;
-                OnPropertyChanged(nameof(this.HistoryOfBalance));
+                OnPropertyChanged(nameof(HistoryOfBalance));
             }
         }
 
-        protected private virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private protected  virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

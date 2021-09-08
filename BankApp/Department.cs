@@ -1,33 +1,22 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Entity of bank department.
     /// </summary>
     public class Department : IConstruct<Customer>
     {
-        private AttributeDepartment attribute;
-        private ObservableCollection<Customer> customers;
-
         /// <summary>
         /// Department attribute.
         /// </summary>
-        public AttributeDepartment Attribute
-        {
-            get { return attribute; }
-
-        }
+        public AttributeDepartment Attribute { get; private set; }
 
         /// <summary>
         /// Collection of customers.
         /// </summary>
-        public ObservableCollection<Customer> Items
-        {
-            get { return customers; }
-            private set { customers = value; }
-        }
+        public ObservableCollection<Customer> Items { get; private set; }
 
         /// <summary>
         /// Department name.
@@ -40,8 +29,8 @@ namespace BankApp_WPF.Models
         /// <param name="attribute"></param>
         public Department(AttributeDepartment attribute)
         {
-            customers = new ObservableCollection<Customer>();
-            this.attribute = attribute;
+            Items = new ObservableCollection<Customer>();
+            Attribute = attribute;
             Name = Enum.GetName(typeof(AttributeDepartment), attribute);
         }
 

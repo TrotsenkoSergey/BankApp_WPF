@@ -1,6 +1,4 @@
-﻿using BankApp_WPF.Models;
-using BankApp_WPF.View;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,14 +6,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
+using BankApp_WPF.View;
+using BankApp;
 
 namespace BankApp_WPF
 {
-
     /// <summary>
     /// Main App window.
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private Bank bank;
         private Dictionary<Department, TabItemPage> departmentsKey = new Dictionary<Department, TabItemPage>();

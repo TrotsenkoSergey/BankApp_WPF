@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
 
     /// <summary>

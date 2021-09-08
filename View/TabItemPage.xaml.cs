@@ -1,12 +1,11 @@
-﻿using BankApp_WPF.Models;
+﻿using BankApp;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace BankApp_WPF.View
 {
-    
-    public partial class TabItemPage : Page
+    public partial class TabItemPage
     {
         private Department department;
         private Dictionary<Customer, PointShapeLinePage> customerKey = new Dictionary<Customer, PointShapeLinePage>();

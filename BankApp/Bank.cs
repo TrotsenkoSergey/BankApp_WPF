@@ -1,32 +1,21 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Implement the essence of a bank.
     /// </summary>
     public class Bank : IConstruct<Department>
     {
-        private Timer timer;
-        private ObservableCollection<Department> departments;
-
         /// <summary>
         /// Timer.
         /// </summary>
-        public Timer Timer
-        {
-            get { return timer; }
-            private set { timer = value; }
-        }
+        public Timer Timer { get; private set; }
 
         /// <summary>
         /// Departments collection.
         /// </summary>
-        public ObservableCollection<Department> Items
-        {
-            get { return departments; }
-            private set { departments = value; }
-        }
+        public ObservableCollection<Department> Items { get; private set; }
 
         /// <summary>
         /// Name.
@@ -36,11 +25,18 @@ namespace BankApp_WPF.Models
         /// <summary>
         /// Creates a bank and a new entity of time.
         /// </summary>
-        /// <param name="name"></param>
-        public Bank(string name)
+        public Bank()
         {
             Timer = new Timer();
             Items = new ObservableCollection<Department>();
+        }
+
+        /// <summary>
+        /// Creates a bank and a new entity of time.
+        /// </summary>
+        /// <param name="name"></param>
+        public Bank(string name) : this()
+        {
             Name = name;
         }
 

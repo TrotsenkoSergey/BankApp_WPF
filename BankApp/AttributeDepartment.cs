@@ -1,6 +1,5 @@
-﻿namespace BankApp_WPF.Models
+﻿namespace BankApp
 {
-
     /// <summary>
     /// Types of departments.
     /// </summary>

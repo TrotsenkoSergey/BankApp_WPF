@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace BankApp_WPF.Models
+namespace BankApp
 {
     /// <summary>
     /// Credit account.
     /// </summary>
-    public class Credit : Account, INotifyPropertyChanged
+    public class Credit : Account
     {
 
         private const decimal MONTHLY_RATE = 1.12m;
@@ -21,10 +20,10 @@ namespace BankApp_WPF.Models
         /// Constructor of a new credit entity.
         /// </summary>
         /// <param name="amount"></param>
-        public Credit(decimal amount) : base()
+        public Credit(decimal amount) 
         {
             Name = DEFAULT_NAME;
-            this.Balance = -amount;
+            Balance = -amount;
             Timer.AddMonths += OnTimer_NewTime;
         }
 
