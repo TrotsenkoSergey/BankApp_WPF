@@ -3,9 +3,9 @@
 namespace BankApp_WPF.View
 {
     
-    public partial class CreateNameForNewBankApp : Window
+    public partial class CreateNewBankApp : Window
     {
-        public CreateNameForNewBankApp()
+        public CreateNewBankApp()
         {
             InitializeComponent();
         }

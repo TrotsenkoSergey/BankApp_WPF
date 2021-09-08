@@ -64,8 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\CreateNameForNewBankApp.xaml.cs">
-      <DependentUpon>CreateNameForNewBankApp.xaml</DependentUpon>
+    <Compile Include="View\CreateNewBankApp.xaml.cs">
+      <DependentUpon>CreateNewBankApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CreateNewDepartment.xaml.cs">
       <DependentUpon>CreateNewDepartment.xaml</DependentUpon>
@@ -73,14 +73,14 @@
     <Compile Include="View\CustomerCreationWindow.xaml.cs">
       <DependentUpon>CustomerCreationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GetSetDepositCredit.xaml.cs">
-      <DependentUpon>GetSetDepositCredit.xaml</DependentUpon>
+    <Compile Include="View\CustomAccountGetSet.xaml.cs">
+      <DependentUpon>CustomAccountGetSet.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PointShapeLineFullBalancePage.cs">
-      <DependentUpon>PointShapeLinePage.xaml</DependentUpon>
+      <DependentUpon>GraphFrame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TabItemPage.xaml.cs">
-      <DependentUpon>TabItemPage.xaml</DependentUpon>
+    <Compile Include="View\TabItemDepartment.xaml.cs">
+      <DependentUpon>TabItemDepartment.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -94,7 +94,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\CreateNameForNewBankApp.xaml">
+    <Page Include="View\CreateNewBankApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,15 +106,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GetSetDepositCredit.xaml">
+    <Page Include="View\CustomAccountGetSet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PointShapeLinePage.xaml">
+    <Page Include="View\GraphFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TabItemPage.xaml">
+    <Page Include="View\TabItemDepartment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

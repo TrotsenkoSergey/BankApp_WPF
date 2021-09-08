@@ -4,10 +4,10 @@ using System.Windows;
 namespace BankApp_WPF.View
 {
     
-    public partial class GetSetDepositCredit : Window
+    public partial class CustomAccountGetSetWindow 
     {
         public decimal Amount { get; set; }
-        public GetSetDepositCredit()
+        public CustomAccountGetSetWindow()
         {
             InitializeComponent();
         }

@@ -5,13 +5,13 @@ using System;
 namespace BankApp_WPF.View
 {
 
-    public partial class PointShapeLinePage
+    public partial class GraphFrame
     {
 
         //private Customer customer;
         //private Action<decimal> initAccountNewBalace;
 
-        public PointShapeLinePage()
+        public GraphFrame()
         {
 
             InitializeComponent();

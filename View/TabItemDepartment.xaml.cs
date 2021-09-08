@@ -5,12 +5,12 @@ using System.Windows.Controls;
 
 namespace BankApp_WPF.View
 {
-    public partial class TabItemPage
+    public partial class TabItemDepartment
     {
         private Department department;
-        private Dictionary<Customer, PointShapeLinePage> customerKey = new Dictionary<Customer, PointShapeLinePage>();
+        private Dictionary<Customer, GraphFrame> customerKey = new Dictionary<Customer, GraphFrame>();
 
-        public TabItemPage(Department department)
+        public TabItemDepartment(Department department)
         {
             InitializeComponent();
             this.department = department;
@@ -20,7 +20,7 @@ namespace BankApp_WPF.View
         public Customer AddRandomCustomer(string name)
         {
             Customer customer = department.AddNewCustomer(name);
-            var fullBalanceGraphPage = new PointShapeLinePage();
+            var fullBalanceGraphPage = new GraphFrame();
             customer.InitialAccount.NewBalance += fullBalanceGraphPage.InitialAccount_NewBalance;
             customerKey.Add(customer, fullBalanceGraphPage);
             return customer;
@@ -64,7 +64,7 @@ namespace BankApp_WPF.View
             if (isClicked)
             {
                 var customer = department.AddNewCustomer(customerAddingWindow.tbCustomerName.Text);
-                var customerBalanceGraphPage = new PointShapeLinePage();
+                var customerBalanceGraphPage = new GraphFrame();
                 customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
                 customerKey.Add(customer, customerBalanceGraphPage);
             }
@@ -83,7 +83,7 @@ namespace BankApp_WPF.View
         {
             var customer = lbCustomers.SelectedItem as Customer;
 
-            var accountWindow = new GetSetDepositCredit();
+            var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
@@ -96,7 +96,7 @@ namespace BankApp_WPF.View
         {
             var customer = lbCustomers.SelectedItem as Customer;
 
-            var accountWindow = new GetSetDepositCredit();
+            var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
@@ -113,7 +113,7 @@ namespace BankApp_WPF.View
         {
             var customer = lbCustomers.SelectedItem as Customer;
 
-            var accountWindow = new GetSetDepositCredit();
+            var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
@@ -131,7 +131,7 @@ namespace BankApp_WPF.View
             var customer = lbCustomers.SelectedItem as Customer;
             var deposit = lbAccounts.SelectedItem as Deposit;
 
-            var accountWindow = new GetSetDepositCredit();
+            var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
@@ -148,7 +148,7 @@ namespace BankApp_WPF.View
         {
             var customer = lbCustomers.SelectedItem as Customer;
 
-            var accountWindow = new GetSetDepositCredit();
+            var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
@@ -162,7 +162,7 @@ namespace BankApp_WPF.View
             var customer = lbCustomers.SelectedItem as Customer;
             var credit = lbAccounts.SelectedItem as Credit;
 
-            var accountWindow = new GetSetDepositCredit();
+            var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)

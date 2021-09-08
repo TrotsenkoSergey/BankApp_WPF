@@ -17,7 +17,7 @@ namespace BankApp_WPF
     public partial class MainWindow
     {
         private Bank bank;
-        private Dictionary<Department, TabItemPage> departmentsKey = new Dictionary<Department, TabItemPage>();
+        private Dictionary<Department, TabItemDepartment> departmentsKey = new Dictionary<Department, TabItemDepartment>();
 
         public MainWindow()
         {
@@ -34,7 +34,7 @@ namespace BankApp_WPF
         /// </summary>
         private void CreateBank()
         {
-            CreateNameForNewBankApp newWindow = new CreateNameForNewBankApp();
+            CreateNewBankApp newWindow = new CreateNewBankApp();
             newWindow.ShowDialog();
             bank = new Bank(newWindow.tbBankName.Text);
 
@@ -43,7 +43,7 @@ namespace BankApp_WPF
                 bank.Name = "BANK_FOR_TESTING";
 
                 var department = bank.CreateDepartment(AttributeDepartment.Persons);
-                var tabItem = new TabItemPage(department);
+                var tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
                 departmentsKey[department].AddRandomCustomer("FirstPerson_Name")
                           .GetCredit(1000m)
@@ -54,7 +54,7 @@ namespace BankApp_WPF
                          .AddNewDeposit(500m);
 
                 department = bank.CreateDepartment(AttributeDepartment.Organizations);
-                tabItem = new TabItemPage(department);
+                tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
                 departmentsKey[department].AddRandomCustomer("ORGANIZATION");
             }
@@ -109,7 +109,7 @@ namespace BankApp_WPF
                 {
                     department.Name = departmentCreationWindow.tbDepartmentName.Text;
                 }
-                var tabItem = new TabItemPage(department);
+                var tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
             }
         }
