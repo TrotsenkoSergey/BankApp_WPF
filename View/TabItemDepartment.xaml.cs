@@ -76,9 +76,10 @@ namespace BankApp_WPF.View
                 FrameFullBalanceGraph.Content = customerKey[customer];
                 lbAccounts.ItemsSource = customer.Items;
 
-                if (!CustomerExtensions.CustomerExtensions.RepLogsCollection.ContainsKey(customer))
-                    CustomerExtensions.CustomerExtensions.RepLogsCollection.Add(customer, new RepLogs());
-                lbLogs.ItemsSource = CustomerExtensions.CustomerExtensions.RepLogsCollection[customer].CurrentLogs;
+                //if (!CustomerExtensions.CustomerExtensions.RepLogsCollection.ContainsKey(customer))
+                  //  CustomerExtensions.CustomerExtensions.RepLogsCollection.Add(customer, new RepLogs());
+
+                lbLogs.ItemsSource = CustomerExtensions.CustomerExtensions.LogsRepository[customer].CurrentLogs;
             }
         }
 

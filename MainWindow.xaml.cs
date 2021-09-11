@@ -50,18 +50,18 @@ namespace BankApp_WPF
                 departmentsKey[department].AddDefaultCustomer("FirstPerson_Name")
                           .GetCredit(1000m)
                           .AddNewDeposit(900m)
-                          .ToIntroduceNewMethodForGettingLogs();
+                          .IntroduceLogsExtensions();
                 departmentsKey[department].AddDefaultCustomer("SecondPerson_Name")
                          .FundInitialAccount(1000m)
                          .AddNewDeposit(500m)
                          .AddNewDeposit(500m)
-                         .ToIntroduceNewMethodForGettingLogs(); 
+                         .IntroduceLogsExtensions(); 
 
                 department = bank.CreateDepartment(AttributeDepartment.Organizations);
                 tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
                 departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
-                    .ToIntroduceNewMethodForGettingLogs(); 
+                    .IntroduceLogsExtensions(); 
             }
         }
 
