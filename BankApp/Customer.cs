@@ -27,7 +27,7 @@ namespace BankApp
             get => InitialAccount.Balance;
             private set
             {
-                InitialAccount.OnBalanceChanged(value);
+                InitialAccount.OnBalanceChanged(value, InitialAccount);
                 OnPropertyChanged(nameof(InitialBalance));
             }
         }
@@ -136,9 +136,10 @@ namespace BankApp
         /// <returns></returns>
         public Customer RepayLoan(object concreteCredit, decimal amount)
         {
+            var credit = concreteCredit as Credit;
             if (InitialBalance >= amount && amount > 0)
             {
-                (concreteCredit as Credit).OnBalanceChanged(amount);
+                credit.OnBalanceChanged(amount, credit);
                 InitialBalance = -amount;
             }
             return this;
@@ -152,9 +153,10 @@ namespace BankApp
         /// <returns></returns>
         public Customer WithDrawDeposit(object concreteDeposit, decimal amount)
         {
-            if (amount > 0 && (concreteDeposit as Deposit).Balance >= amount)
+            var deposit = concreteDeposit as Deposit;
+            if (amount > 0 && deposit.Balance >= amount)
             {
-                (concreteDeposit as Deposit).OnBalanceChanged(-amount);
+                deposit.OnBalanceChanged(-amount, deposit);
                 InitialBalance = amount;
             }
             return this;
@@ -185,9 +187,10 @@ namespace BankApp
         /// <returns></returns>
         public Customer AddAmountExistingDeposit(object concreteDeposit, decimal amount)
         {
+            var deposit = concreteDeposit as Deposit;
             if (amount > 0 && InitialBalance >= amount)
             {
-                (concreteDeposit as Deposit).OnBalanceChanged(amount);
+                deposit.OnBalanceChanged(amount, deposit);
                 InitialBalance = -amount;
             }
             return this;

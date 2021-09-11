@@ -5,7 +5,7 @@ using System.Windows;
 namespace BankApp_WPF.View
 {
     
-    public partial class CreateNewDepartment : Window
+    public partial class CreateNewDepartment
     {
         public CreateNewDepartment()
         {

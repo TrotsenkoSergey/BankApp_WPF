@@ -157,9 +157,13 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="BankApp\BankApp.csproj">
+    <ProjectReference Include="..\Extensions\BankApp_Extensions.csproj">
+      <Project>{47192117-c509-4b8a-b3f1-c7823914a28a}</Project>
+      <Name>BankApp_Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="BankApp\BankApp_DLL.csproj">
       <Project>{8298b857-b3d6-4a45-962f-fed62f01a4ad}</Project>
-      <Name>BankApp</Name>
+      <Name>BankApp_DLL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using CustomerExtensions;
 
 namespace BankApp_WPF.View
 {
@@ -17,7 +18,7 @@ namespace BankApp_WPF.View
             lbCustomers.ItemsSource = this.department.Items;
         }
 
-        public Customer AddRandomCustomer(string name)
+        public Customer AddDefaultCustomer(string name)
         {
             Customer customer = department.AddNewCustomer(name);
             var fullBalanceGraphPage = new GraphFrame();
@@ -28,28 +29,26 @@ namespace BankApp_WPF.View
 
         public void RemoveCustomer_MenuMainWindowClick()
         {
-            if (!(lbCustomers.SelectedItem is Customer))
+            if (!(lbCustomers.SelectedItem is Customer customer))
             {
                 MessageBox.Show("You must select the customer to remove.");
             }
-            else if ((lbCustomers.SelectedItem as Customer).Items.Count > 1)
+            else if (customer.Items.Count > 1)
             {
                 MessageBox.Show("Before deleting a customer record, you must close all customer accounts except the main one.");
             }
             else
             {
-                Customer concreteCustomer = lbCustomers.SelectedItem as Customer;
-
                 MessageBoxResult messageBoxResult = MessageBox.Show($"Are you sure to remove " +
-                    $"'{concreteCustomer.Name}' customer? InitialBalance of '{concreteCustomer.Name}' = {concreteCustomer.InitialBalance:C2}.",
+                    $"'{customer.Name}' customer? InitialBalance of '{customer.Name}' = {customer.InitialBalance:C2}.",
                     "Warning message", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    concreteCustomer.InitialAccount.NewBalance -= customerKey[concreteCustomer].InitialAccount_NewBalance;
-                    concreteCustomer.Remove(concreteCustomer.InitialAccount);
-                    customerKey.Remove(concreteCustomer);
-                    department.Remove(concreteCustomer);
+                    customer.InitialAccount.NewBalance -= customerKey[customer].InitialAccount_NewBalance;
+                    customer.Remove(customer.InitialAccount);
+                    customerKey.Remove(customer);
+                    department.Remove(customer);
                 }
             }
         }
@@ -72,10 +71,14 @@ namespace BankApp_WPF.View
 
         private void lbCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lbCustomers.SelectedItem is Customer)
+            if (lbCustomers.SelectedItem is Customer customer)
             {
-                FrameFullBalanceGraph.Content = customerKey[lbCustomers.SelectedItem as Customer];
-                lbAccounts.ItemsSource = (lbCustomers.SelectedItem as Customer).Items;
+                FrameFullBalanceGraph.Content = customerKey[customer];
+                lbAccounts.ItemsSource = customer.Items;
+
+                if (!CustomerExtensions.CustomerExtensions.RepLogsCollection.ContainsKey(customer))
+                    CustomerExtensions.CustomerExtensions.RepLogsCollection.Add(customer, new RepLogs());
+                lbLogs.ItemsSource = CustomerExtensions.CustomerExtensions.RepLogsCollection[customer].CurrentLogs;
             }
         }
 
@@ -85,8 +88,8 @@ namespace BankApp_WPF.View
 
             var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
-            bool isClicked = (bool)accountWindow.ShowDialog();
-            if (isClicked)
+            bool isCorrectValue = (bool)accountWindow.ShowDialog();
+            if (isCorrectValue)
             {
                 customer.FundInitialAccount(accountWindow.Amount);
             }
@@ -98,8 +101,8 @@ namespace BankApp_WPF.View
 
             var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
-            bool isClicked = (bool)accountWindow.ShowDialog();
-            if (isClicked)
+            bool isCorrectValue = (bool)accountWindow.ShowDialog();
+            if (isCorrectValue)
             {
                 if (customer.InitialBalance >= accountWindow.Amount)
                 {
@@ -115,8 +118,8 @@ namespace BankApp_WPF.View
 
             var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
-            bool isClicked = (bool)accountWindow.ShowDialog();
-            if (isClicked)
+            bool isCorrectValue = (bool)accountWindow.ShowDialog();
+            if (isCorrectValue)
             {
                 if (customer.InitialBalance >= accountWindow.Amount)
                 {
@@ -133,8 +136,8 @@ namespace BankApp_WPF.View
 
             var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
-            bool isClicked = (bool)accountWindow.ShowDialog();
-            if (isClicked)
+            bool isCorrectValue = (bool)accountWindow.ShowDialog();
+            if (isCorrectValue)
             {
                 if (deposit.Balance >= accountWindow.Amount)
                 {
@@ -164,8 +167,8 @@ namespace BankApp_WPF.View
 
             var accountWindow = new CustomAccountGetSetWindow();
             accountWindow.Owner = window;
-            bool isClicked = (bool)accountWindow.ShowDialog();
-            if (isClicked)
+            bool isCorrectValue = (bool)accountWindow.ShowDialog();
+            if (isCorrectValue)
             {
                 if (-credit.Balance >= accountWindow.Amount && customer.InitialBalance >= accountWindow.Amount)
                 {

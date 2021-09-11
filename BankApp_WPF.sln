@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp_WPF", "BankApp_WPF.csproj", "{8B72C2F9-787E-4655-B933-6C027C279F1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp", "BankApp\BankApp.csproj", "{8298B857-B3D6-4A45-962F-FED62F01A4AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp_DLL", "BankApp\BankApp_DLL.csproj", "{8298B857-B3D6-4A45-962F-FED62F01A4AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp_Extensions", "..\Extensions\BankApp_Extensions.csproj", "{47192117-C509-4B8A-B3F1-C7823914A28A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{8298B857-B3D6-4A45-962F-FED62F01A4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8298B857-B3D6-4A45-962F-FED62F01A4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8298B857-B3D6-4A45-962F-FED62F01A4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47192117-C509-4B8A-B3F1-C7823914A28A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47192117-C509-4B8A-B3F1-C7823914A28A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47192117-C509-4B8A-B3F1-C7823914A28A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47192117-C509-4B8A-B3F1-C7823914A28A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

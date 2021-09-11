@@ -3,11 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:BankApp_WPF.View"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="480" d:DesignWidth="1030"
       Title="BankApp">
-    
+
     <Page.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="10"/>
@@ -20,7 +19,7 @@
             <Setter Property="CornerRadius" Value="5"/>
         </Style>
     </Page.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="33*"/>
@@ -74,10 +73,20 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <Frame x:Name="FrameFullBalanceGraph" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
                BorderBrush="Black" BorderThickness="0.5"
                NavigationUIVisibility="Hidden"/>
+
+        <ListBox x:Name="lbLogs" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="0.5">
+                        <TextBlock Margin="10 0" FontSize="10" Text="{Binding Log}" TextWrapping="WrapWithOverflow"/>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </Page>

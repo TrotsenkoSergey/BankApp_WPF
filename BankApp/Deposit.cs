@@ -14,7 +14,7 @@ namespace BankApp
         /// <summary>
         /// Balance changed event.
         /// </summary>
-        public event Action<decimal> BalanceChanged;
+        public event Action<decimal, Account> BalanceChanged;
 
         /// <summary>
         /// Constructor of a new deposit entity.
@@ -38,7 +38,7 @@ namespace BankApp
             {
                 tempBalance *= MONTHLY_RATE;
             }
-            BalanceChanged?.Invoke(tempBalance - Balance);
+            BalanceChanged?.Invoke(tempBalance - Balance, this);
             Balance = tempBalance;
         }
     }

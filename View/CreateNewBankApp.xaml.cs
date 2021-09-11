@@ -3,7 +3,7 @@
 namespace BankApp_WPF.View
 {
     
-    public partial class CreateNewBankApp : Window
+    public partial class CreateNewBankApp
     {
         public CreateNewBankApp()
         {

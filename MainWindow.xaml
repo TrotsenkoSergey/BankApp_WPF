@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BankApp_WPF" 
         mc:Ignorable="d"
         Title="BankApp" Icon="/View/bank.png" Height="470" Width="950" 
-        MinHeight="470" MinWidth="950" WindowStartupLocation="CenterScreen">
+        MinHeight="500" MinWidth="1050" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="{x:Type TabItem}">
@@ -112,6 +112,7 @@
         <Frame x:Name="MainFrame" 
                Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3"
                NavigationUIVisibility="Hidden"/>
+
 
     </Grid>
 </Window>

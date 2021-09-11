@@ -6,7 +6,9 @@ namespace BankApp_WPF.View
     
     public partial class CustomAccountGetSetWindow 
     {
+
         public decimal Amount { get; set; }
+
         public CustomAccountGetSetWindow()
         {
             InitializeComponent();

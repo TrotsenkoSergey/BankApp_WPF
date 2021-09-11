@@ -14,13 +14,13 @@ namespace BankApp
         /// <summary>
         /// Balance changed event.
         /// </summary>
-        public event Action<decimal> BalanceChanged;
+        public event Action<decimal, Account> BalanceChanged;
 
         /// <summary>
         /// Constructor of a new credit entity.
         /// </summary>
         /// <param name="amount"></param>
-        public Credit(decimal amount) 
+        public Credit(decimal amount)
         {
             Name = DEFAULT_NAME;
             Balance = -amount;
@@ -38,7 +38,7 @@ namespace BankApp
             {
                 tempBalance *= MONTHLY_RATE;
             }
-            BalanceChanged?.Invoke(tempBalance - Balance);
+            BalanceChanged?.Invoke(tempBalance - Balance, this);
             Balance = tempBalance;
         }
     }
