@@ -41,7 +41,8 @@ namespace BankApp
         /// Changes the current balance by a certain value.
         /// </summary>
         /// <param name="changedAmount"></param>
-        public virtual void OnBalanceChanged(decimal changedAmount)
+        /// <param name="account"></param>
+        internal virtual void OnBalanceChanged(decimal changedAmount, Account account)
         {
             Balance += changedAmount;
         }
