@@ -295,59 +295,6 @@ namespace BankApp_WPF
         }
 
         /// <summary>
-        /// Calls IO tools to Load file bank.json.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Load_Click(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Dialog window Json repository";
-            openFileDialog.Filter = "Json files (*.json)|*.json";
-            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string json = System.IO.File.ReadAllText(openFileDialog.FileName);
-                var settings = new Newtonsoft.Json.JsonSerializerSettings
-                {
-                    TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Objects,
-                    Formatting = Newtonsoft.Json.Formatting.Indented,
-                };
-                bank = Newtonsoft.Json.JsonConvert.DeserializeObject<Bank>(json, settings);
-
-                tbBankName.DataContext = bank;
-                spTimer.DataContext = bank.Timer;
-                tabCntrl.ItemsSource = bank.Items;
-            }
-        }
-
-        /// <summary>
-        /// Calls IO tools to Save bank.json file.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Title = "Dialog window Json repository";
-            saveFileDialog.Filter = "Json files (*.json)|*.json";
-            saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                var settings = new Newtonsoft.Json.JsonSerializerSettings
-                {
-                    TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Objects,
-                    Formatting = Newtonsoft.Json.Formatting.Indented,
-                };
-                string json = Newtonsoft.Json.JsonConvert.SerializeObject(bank, settings);
-
-                string fileName = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
-
-                System.IO.File.WriteAllText(fileName, json);
-            }
-        }
-
-        /// <summary>
         /// Shows copyright. And allows you to follow the link.
         /// </summary>
         /// <param name="sender"></param>
