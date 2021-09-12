@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,18 +49,18 @@ namespace BankApp_WPF
                 departmentsKey[department].AddDefaultCustomer("FirstPerson_Name")
                           .GetCredit(1000m)
                           .AddNewDeposit(900m)
-                          .IntroduceLogsExtensions();
+                          .IntroduceLogsDefaultCustomer(); //New Extensions property
                 departmentsKey[department].AddDefaultCustomer("SecondPerson_Name")
                          .FundInitialAccount(1000m)
                          .AddNewDeposit(500m)
                          .AddNewDeposit(500m)
-                         .IntroduceLogsExtensions(); 
+                         .IntroduceLogsDefaultCustomer(); //New Extensions property
 
                 department = bank.CreateDepartment(AttributeDepartment.Organizations);
                 tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
                 departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
-                    .IntroduceLogsExtensions(); 
+                    .IntroduceLogsDefaultCustomer(); 
             }
         }
 

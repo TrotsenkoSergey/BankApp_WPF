@@ -48,6 +48,7 @@ namespace BankApp_WPF.View
                     customer.InitialAccount.NewBalance -= customerKey[customer].InitialAccount_NewBalance;
                     customer.Remove(customer.InitialAccount);
                     customerKey.Remove(customer);
+                    CustomerExtension.LogsRepository.Remove(customer); //New Extensions property
                     department.Remove(customer);
                 }
             }
@@ -59,13 +60,14 @@ namespace BankApp_WPF.View
             customerAddingWindow.Owner = window;
             bool isClicked = (bool)customerAddingWindow.ShowDialog();
 
-            var department = window.tabCntrl.SelectedItem as Department;
             if (isClicked)
             {
+                var department = window.tabCntrl.SelectedItem as Department;
                 var customer = department.AddNewCustomer(customerAddingWindow.tbCustomerName.Text);
                 var customerBalanceGraphPage = new GraphFrame();
                 customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
                 customerKey.Add(customer, customerBalanceGraphPage);
+                CustomerExtension.LogsRepository.Add(customer, new RepLogs()); //New Extensions property
             }
         }
 
@@ -75,11 +77,7 @@ namespace BankApp_WPF.View
             {
                 FrameFullBalanceGraph.Content = customerKey[customer];
                 lbAccounts.ItemsSource = customer.Items;
-
-                //if (!CustomerExtensions.CustomerExtensions.RepLogsCollection.ContainsKey(customer))
-                  //  CustomerExtensions.CustomerExtensions.RepLogsCollection.Add(customer, new RepLogs());
-
-                lbLogs.ItemsSource = CustomerExtensions.CustomerExtensions.LogsRepository[customer].CurrentLogs;
+                lbLogs.ItemsSource = CustomerExtension.LogsRepository[customer].CurrentLogs; //New Extensions property binding
             }
         }
 
@@ -124,7 +122,9 @@ namespace BankApp_WPF.View
             {
                 if (customer.InitialBalance >= accountWindow.Amount)
                 {
+                    var customerAccountsCount = customer.Items.Count; //New Extensions subscription
                     customer.AddNewDeposit(accountWindow.Amount);
+                    (customer.Items[customerAccountsCount] as Deposit).BalanceChanged += customer.TransferLogs; //New Extensions subscription
                 }
                 else MessageBox.Show("You don't have enough money, you can get a loan first.");
             }
@@ -156,8 +156,10 @@ namespace BankApp_WPF.View
             accountWindow.Owner = window;
             bool isClicked = (bool)accountWindow.ShowDialog();
             if (isClicked)
-            {
+            { 
+                var customerAccountsCount = customer.Items.Count; //New Extensions subscription
                 customer.GetCredit(accountWindow.Amount);
+                (customer.Items[customerAccountsCount] as Credit).BalanceChanged += customer.TransferLogs; //New Extensions subscription
             }
         }
 
@@ -185,13 +187,21 @@ namespace BankApp_WPF.View
             var customer = lbCustomers.SelectedItem as Customer;
             var account = lbAccounts.SelectedItem as Account;
 
-            if (account is Credit)
+            if (account is Credit credit)
             {
-                if (-account.Balance > customer.InitialBalance) MessageBox.Show("There is not enough money on your initial deposit to close account.");
-                else customer.Remove(account);
+                if (-account.Balance > customer.InitialBalance) 
+                {
+                    MessageBox.Show("There is not enough money on your initial deposit to close account."); 
+                }
+                else
+                {
+                    credit.BalanceChanged -= customer.TransferLogs; //New Extensions unsubscription
+                    customer.Remove(account);
+                }
             }
-            else if (account is Deposit)
+            else if (account is Deposit deposit)
             {
+                deposit.BalanceChanged -= customer.TransferLogs; //New Extensions unsubscription
                 customer.Remove(account);
             }
             else if (account is InitialAccount)
