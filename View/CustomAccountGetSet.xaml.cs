@@ -30,7 +30,7 @@ namespace BankApp_WPF.View
             {
                 MessageBox.Show("The value must be greater than Zero");
             }
-            catch (OverflowException) 
+            catch (OverflowException)
             {
                 MessageBox.Show($"Values ​​greater than {decimal.MaxValue}\n" +
                                 $"or less than {decimal.MinValue}\n" +
