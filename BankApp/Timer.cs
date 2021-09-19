@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace BankApp
 {
@@ -24,6 +25,18 @@ namespace BankApp
 
         private const int MAX_MONTHS = 12;
 
+        [JsonConstructor]
+        public Timer(int OldMonths = default, int OldYears = default, int CurrentMonths = default, int CurrentYears = default)
+        {
+            this.OldMonths = OldMonths;
+            this.OldYears = OldYears;
+            this.CurrentMonths = CurrentMonths;
+            this.CurrentYears = CurrentYears;
+        }
+
+        //public Timer() { }
+
+        [JsonInclude]
         /// <summary>
         /// Information about the value of the previous month.
         /// </summary>
@@ -33,7 +46,7 @@ namespace BankApp
         /// Information about the value of the previous year.
         /// </summary>
         public int OldYears { get; private set; }
-
+       
         /// <summary>
         /// Information about the value of the current month.
         /// </summary>

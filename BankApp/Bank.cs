@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace BankApp
 {
@@ -8,19 +9,20 @@ namespace BankApp
     public class Bank : IConstruct<Department>
     {
         /// <summary>
+        /// Name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Timer.
         /// </summary>
         public Timer Timer { get; private set; }
 
+        [JsonPropertyName("departments")]
         /// <summary>
         /// Departments collection.
         /// </summary>
         public ObservableCollection<Department> Items { get; private set; }
-
-        /// <summary>
-        /// Name.
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// Creates a bank and a new entity of time.

@@ -27,6 +27,8 @@ namespace BankApp
             Timer.AddMonths += OnTimer_NewTime;
         }
 
+        public Deposit() { }
+
         /// <summary>
         /// Handles the time change event.
         /// </summary>

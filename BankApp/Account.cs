@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace BankApp
 {
@@ -23,6 +24,7 @@ namespace BankApp
         /// </summary>
         public virtual string Name { get; set; }
 
+        [JsonInclude]
         /// <summary>
         /// Balance.
         /// </summary>

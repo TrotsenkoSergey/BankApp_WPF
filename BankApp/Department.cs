@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace BankApp
 {
@@ -9,19 +10,20 @@ namespace BankApp
     public class Department : IConstruct<Customer>
     {
         /// <summary>
+        /// Department name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Department attribute.
         /// </summary>
         public AttributeDepartment Attribute { get; private set; }
 
+        [JsonPropertyName("customers")]
         /// <summary>
         /// Collection of customers.
         /// </summary>
         public ObservableCollection<Customer> Items { get; private set; }
-
-        /// <summary>
-        /// Department name.
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// Department constructor.

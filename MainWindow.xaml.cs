@@ -9,6 +9,11 @@ using Microsoft.Win32;
 using BankApp_WPF.View;
 using BankApp;
 using CustomerExtensions;
+using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using Extensions;
 
 namespace BankApp_WPF
 {
@@ -60,7 +65,7 @@ namespace BankApp_WPF
                 tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
                 departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
-                    .IntroduceLogsDefaultCustomer(); 
+                    .IntroduceLogsDefaultCustomer();
             }
         }
 
@@ -104,7 +109,7 @@ namespace BankApp_WPF
         {
             var departmentCreationWindow = new CreateNewDepartment();
             departmentCreationWindow.Owner = this;
-            bool isCorrectValue= (bool)departmentCreationWindow.ShowDialog();
+            bool isCorrectValue = (bool)departmentCreationWindow.ShowDialog();
             if (isCorrectValue)
             {
                 var type = Enum.Parse(typeof(AttributeDepartment), departmentCreationWindow.cbAtribute.SelectedItem as String);
@@ -213,7 +218,7 @@ namespace BankApp_WPF
 
         private void WithDrawDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
-            if (tabCntrl.SelectedItem is Department  department &&
+            if (tabCntrl.SelectedItem is Department department &&
                 departmentsKey[department].lbCustomers.SelectedItem is Customer &&
                 departmentsKey[department].lbAccounts.SelectedItem is Deposit)
             {
@@ -316,5 +321,86 @@ namespace BankApp_WPF
             }
         }
 
+        private async void Save_Click(object o, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Dialog Save window Json Bank repository";
+            saveFileDialog.Filter = "Json files (*.json)|*.json";
+            saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                //var settings = new JsonSerializerSettings
+                //{
+                //    TypeNameHandling = TypeNameHandling.Objects,
+                //    Formatting = Formatting.Indented,
+                //    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                //};
+
+                //var taskBank = Task.Run(() => JsonConvert.SerializeObject(bank, settings));
+                //var taskLogs = Task.Run(() => JsonConvert.SerializeObject(CustomerExtension.LogsRepository, settings));
+
+                //string jsonBank = await taskBank;
+                //string stringLogs = await taskLogs;
+
+                //string fileBankName = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
+                //await Task.Run(() => File.WriteAllText(fileBankName, jsonBank));
+
+                //string fileLogsName = Path.Combine(saveFileDialog.InitialDirectory, "LOGS.json");
+
+                //await Task.Run(() => File.WriteAllText(fileLogsName, stringLogs));
+
+                string pathToSave = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
+                var serializer = new DataSerializer();
+                serializer.JsonSerialize(bank, pathToSave);
+            }
+        }
+
+        private async void Load_Click(object s, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Dialog Load window Json Bank repository";
+            openFileDialog.Filter = "Json files (*.json)|*.json";
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                //var settings = new JsonSerializerSettings
+                //{
+                //    TypeNameHandling = TypeNameHandling.Objects,
+                //    Formatting = Formatting.Indented,
+                //    //ReferenceLoopHandling = ReferenceLoopHandling.Serialize
+                //};
+
+                //var jsonBank = await Task.Run(() => File.ReadAllText(openFileDialog.FileName));
+                //bank = JsonConvert.DeserializeObject<Bank>(jsonBank, settings);
+
+                //var fileLogsName = Path.Combine(openFileDialog.InitialDirectory, "LOGS.json");
+                //var jsonLogs = await Task.Run(() => File.ReadAllText(fileLogsName));
+                //CustomerExtension.LogsRepository = JsonConvert.DeserializeObject<Dictionary<string, RepLogs>>(jsonLogs, settings);
+                var deserializer = new DataSerializer();
+                bank = await deserializer.JsonDeserialize(openFileDialog.FileName);
+            }
+
+            tbBankName.DataContext = bank;
+            spTimer.DataContext = bank.Timer;
+            tabCntrl.ItemsSource = bank.Items;
+
+            if (bank.Items.Count != 0)
+                foreach (var department in bank.Items)
+                {
+                    var tabItem = new TabItemDepartment(department);
+                    departmentsKey.Add(department, tabItem);
+
+                    if (department.Items.Count != 0)
+                        foreach (var customer in department.Items)
+                        {
+                            var customerBalanceGraphPage = new GraphFrame();
+                            customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
+                            departmentsKey[department].CustomerKey.Add(customer, customerBalanceGraphPage);
+                        }
+                }
+
+
+        }
     }
 }

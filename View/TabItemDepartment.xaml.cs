@@ -9,7 +9,7 @@ namespace BankApp_WPF.View
     public partial class TabItemDepartment
     {
         private Department department;
-        private Dictionary<Customer, GraphFrame> customerKey = new Dictionary<Customer, GraphFrame>();
+        public Dictionary<Customer, GraphFrame> CustomerKey { get; private set; } = new Dictionary<Customer, GraphFrame>();
 
         public TabItemDepartment(Department department)
         {
@@ -23,7 +23,7 @@ namespace BankApp_WPF.View
             Customer customer = department.AddNewCustomer(name);
             var fullBalanceGraphPage = new GraphFrame();
             customer.InitialAccount.NewBalance += fullBalanceGraphPage.InitialAccount_NewBalance;
-            customerKey.Add(customer, fullBalanceGraphPage);
+            CustomerKey.Add(customer, fullBalanceGraphPage);
             return customer;
         }
 
@@ -45,10 +45,10 @@ namespace BankApp_WPF.View
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    customer.InitialAccount.NewBalance -= customerKey[customer].InitialAccount_NewBalance;
+                    customer.InitialAccount.NewBalance -= CustomerKey[customer].InitialAccount_NewBalance;
                     customer.Remove(customer.InitialAccount);
-                    customerKey.Remove(customer);
-                    CustomerExtension.LogsRepository.Remove(customer); //New Extensions property
+                    CustomerKey.Remove(customer);
+                    CustomerExtension.LogsRepository.Remove(customer.Name); //New Extensions property
                     department.Remove(customer);
                 }
             }
@@ -66,8 +66,8 @@ namespace BankApp_WPF.View
                 var customer = department.AddNewCustomer(customerAddingWindow.tbCustomerName.Text);
                 var customerBalanceGraphPage = new GraphFrame();
                 customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
-                customerKey.Add(customer, customerBalanceGraphPage);
-                CustomerExtension.LogsRepository.Add(customer, new RepLogs()); //New Extensions property
+                CustomerKey.Add(customer, customerBalanceGraphPage);
+                CustomerExtension.LogsRepository.Add(customer.Name, new RepLogs()); //New Extensions property
             }
         }
 
@@ -75,9 +75,9 @@ namespace BankApp_WPF.View
         {
             if (lbCustomers.SelectedItem is Customer customer)
             {
-                FrameFullBalanceGraph.Content = customerKey[customer];
+                FrameFullBalanceGraph.Content = CustomerKey[customer];
                 lbAccounts.ItemsSource = customer.Items;
-                lbLogs.ItemsSource = CustomerExtension.LogsRepository[customer].CurrentLogs; //New Extensions property binding
+                lbLogs.ItemsSource = CustomerExtension.LogsRepository[customer.Name].CurrentLogs; //New Extensions property binding
             }
         }
 
