@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BankApp
 {
@@ -20,14 +21,12 @@ namespace BankApp
         /// Constructor of a new credit entity.
         /// </summary>
         /// <param name="amount"></param>
-        public Credit(decimal amount)
+        public Credit(decimal amount) : base()
         {
             Name = DEFAULT_NAME;
             Balance = -amount;
             Timer.AddMonths += OnTimer_NewTime;
         }
-
-        public Credit() { }
 
         /// <summary>
         /// Handles the time change event.

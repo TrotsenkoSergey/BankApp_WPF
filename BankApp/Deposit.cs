@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BankApp
 {
@@ -26,8 +27,6 @@ namespace BankApp
             Balance = amount;
             Timer.AddMonths += OnTimer_NewTime;
         }
-
-        public Deposit() { }
 
         /// <summary>
         /// Handles the time change event.

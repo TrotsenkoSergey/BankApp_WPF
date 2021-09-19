@@ -321,7 +321,7 @@ namespace BankApp_WPF
             }
         }
 
-        private async void Save_Click(object o, RoutedEventArgs e)
+        private void Save_Click(object o, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Title = "Dialog Save window Json Bank repository";
@@ -329,26 +329,6 @@ namespace BankApp_WPF
             saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
             if (saveFileDialog.ShowDialog() == true)
             {
-                //var settings = new JsonSerializerSettings
-                //{
-                //    TypeNameHandling = TypeNameHandling.Objects,
-                //    Formatting = Formatting.Indented,
-                //    ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-                //};
-
-                //var taskBank = Task.Run(() => JsonConvert.SerializeObject(bank, settings));
-                //var taskLogs = Task.Run(() => JsonConvert.SerializeObject(CustomerExtension.LogsRepository, settings));
-
-                //string jsonBank = await taskBank;
-                //string stringLogs = await taskLogs;
-
-                //string fileBankName = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
-                //await Task.Run(() => File.WriteAllText(fileBankName, jsonBank));
-
-                //string fileLogsName = Path.Combine(saveFileDialog.InitialDirectory, "LOGS.json");
-
-                //await Task.Run(() => File.WriteAllText(fileLogsName, stringLogs));
-
                 string pathToSave = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
                 var serializer = new DataSerializer();
                 serializer.JsonSerialize(bank, pathToSave);
@@ -364,19 +344,6 @@ namespace BankApp_WPF
 
             if (openFileDialog.ShowDialog() == true)
             {
-                //var settings = new JsonSerializerSettings
-                //{
-                //    TypeNameHandling = TypeNameHandling.Objects,
-                //    Formatting = Formatting.Indented,
-                //    //ReferenceLoopHandling = ReferenceLoopHandling.Serialize
-                //};
-
-                //var jsonBank = await Task.Run(() => File.ReadAllText(openFileDialog.FileName));
-                //bank = JsonConvert.DeserializeObject<Bank>(jsonBank, settings);
-
-                //var fileLogsName = Path.Combine(openFileDialog.InitialDirectory, "LOGS.json");
-                //var jsonLogs = await Task.Run(() => File.ReadAllText(fileLogsName));
-                //CustomerExtension.LogsRepository = JsonConvert.DeserializeObject<Dictionary<string, RepLogs>>(jsonLogs, settings);
                 var deserializer = new DataSerializer();
                 bank = await deserializer.JsonDeserialize(openFileDialog.FileName);
             }
@@ -394,13 +361,37 @@ namespace BankApp_WPF
                     if (department.Items.Count != 0)
                         foreach (var customer in department.Items)
                         {
+                            if (customer.Items.Count != 0)
+                                foreach (var account in customer.Items)
+                                {
+                                    if (account is Credit credit)
+                                    {
+                                        credit.BalanceChanged += customer.InitialAccount.OnBalanceChanged;
+                                        credit.BalanceChanged += customer.TransferLogs;
+                                    }
+                                    else if (account is Deposit deposit)
+                                    {
+                                        deposit.BalanceChanged += customer.InitialAccount.OnBalanceChanged;
+                                        deposit.BalanceChanged += customer.TransferLogs;
+                                    }
+                                    else if (account is InitialAccount initialAccount)
+                                    {
+                                        customer.InitialAccount = initialAccount;
+                                    }
+                                }
+
                             var customerBalanceGraphPage = new GraphFrame();
                             customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
                             departmentsKey[department].CustomerKey.Add(customer, customerBalanceGraphPage);
+                            if (customer.InitialAccount.HistoryOfBalance.Count != 0)
+                                foreach (var num in customer.InitialAccount.HistoryOfBalance)
+                                {
+                                    customerBalanceGraphPage.InitialAccount_NewBalance(num);
+                                }
+
+                            CustomerExtension.LogsRepository.Add(customer.Name, new RepLogs());
                         }
                 }
-
-
         }
     }
 }

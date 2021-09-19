@@ -14,17 +14,18 @@ namespace BankApp
         /// </summary>
         public string Name { get; set; }
 
+        [JsonInclude]
         /// <summary>
         /// Department attribute.
         /// </summary>
         public AttributeDepartment Attribute { get; private set; }
 
-        [JsonPropertyName("customers")]
+        [JsonPropertyName("Customers"), JsonInclude]
         /// <summary>
         /// Collection of customers.
         /// </summary>
         public ObservableCollection<Customer> Items { get; private set; }
-
+        
         /// <summary>
         /// Department constructor.
         /// </summary>

@@ -90,5 +90,13 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties customer_1cs__JsonSchema="https://appsemble.app/api.json" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

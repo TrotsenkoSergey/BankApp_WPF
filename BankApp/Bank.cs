@@ -13,12 +13,13 @@ namespace BankApp
         /// </summary>
         public string Name { get; set; }
 
+        [JsonInclude]
         /// <summary>
         /// Timer.
         /// </summary>
         public Timer Timer { get; private set; }
 
-        [JsonPropertyName("departments")]
+        [JsonPropertyName("Departments"), JsonInclude]
         /// <summary>
         /// Departments collection.
         /// </summary>

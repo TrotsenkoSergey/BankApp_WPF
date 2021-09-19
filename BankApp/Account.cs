@@ -11,7 +11,9 @@ namespace BankApp
     /// </summary>
     public abstract class Account : INotifyPropertyChanged
     {
+        [JsonInclude]
         private protected decimal balance;
+        [JsonInclude]
         private protected List<decimal> historyOfBalance = new List<decimal>();
 
         /// <summary>
@@ -44,18 +46,19 @@ namespace BankApp
         /// </summary>
         /// <param name="changedAmount"></param>
         /// <param name="account"></param>
-        internal virtual void OnBalanceChanged(decimal changedAmount, Account account)
+        public virtual void OnBalanceChanged(decimal changedAmount, Account account)
         {
             Balance += changedAmount;
         }
 
+        [JsonInclude]
         /// <summary>
         /// Collection of balance change values.
         /// </summary>
         public virtual List<decimal> HistoryOfBalance
         {
             get => historyOfBalance;
-            private set
+            set
             {
                 historyOfBalance = value;
                 OnPropertyChanged(nameof(HistoryOfBalance));

@@ -25,28 +25,19 @@ namespace BankApp
 
         private const int MAX_MONTHS = 12;
 
-        [JsonConstructor]
-        public Timer(int OldMonths = default, int OldYears = default, int CurrentMonths = default, int CurrentYears = default)
-        {
-            this.OldMonths = OldMonths;
-            this.OldYears = OldYears;
-            this.CurrentMonths = CurrentMonths;
-            this.CurrentYears = CurrentYears;
-        }
-
-        //public Timer() { }
-
         [JsonInclude]
         /// <summary>
         /// Information about the value of the previous month.
         /// </summary>
         public int OldMonths { get; private set; }
 
+        [JsonInclude]
         /// <summary>
         /// Information about the value of the previous year.
         /// </summary>
         public int OldYears { get; private set; }
-       
+
+        [JsonInclude]
         /// <summary>
         /// Information about the value of the current month.
         /// </summary>
@@ -60,6 +51,7 @@ namespace BankApp
             }
         }
 
+        [JsonInclude]
         /// <summary>
         /// Information about the value of the current year.
         /// </summary>
@@ -97,7 +89,7 @@ namespace BankApp
             AddMonths?.Invoke(addmonths);
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

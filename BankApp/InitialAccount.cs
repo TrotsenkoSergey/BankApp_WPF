@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BankApp
 {
@@ -14,6 +16,7 @@ namespace BankApp
         /// </summary>
         public event Action<decimal> NewBalance;
 
+        [JsonInclude]
         /// <summary>
         /// Balance.
         /// </summary>
@@ -32,9 +35,10 @@ namespace BankApp
         /// <summary>
         /// Constructor of a new initial account entity.
         /// </summary>
-        public InitialAccount()
+        public InitialAccount(decimal amount = default)
         {
             Name = DEFAULT_NAME;
+            Balance = amount;
         }
     }
 }

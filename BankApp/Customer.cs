@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace BankApp
 {
@@ -14,11 +15,13 @@ namespace BankApp
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [JsonIgnore]
         /// <summary>
         /// Access to the main (initial) account.
         /// </summary>
-        public InitialAccount InitialAccount { get; private set; }
+        public InitialAccount InitialAccount { get; set; }
 
+        [JsonIgnore]
         /// <summary>
         /// Balance of the main (initial) account.
         /// </summary>
@@ -36,7 +39,8 @@ namespace BankApp
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        
+        [JsonPropertyName("Accounts"), JsonInclude]
         /// <summary>
         /// Accounts collection.
         /// </summary>
