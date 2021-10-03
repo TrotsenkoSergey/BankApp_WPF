@@ -12,7 +12,7 @@ namespace BankApp_WPF.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            DialogResult = true;
         }
     }
 }

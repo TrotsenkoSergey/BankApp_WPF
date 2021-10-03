@@ -49,8 +49,9 @@
             <Menu>
                 <MenuItem x:Name="miMenu" Header="Menu" Height="20" Width="40" 
                           Style="{StaticResource MenuItem}">
-                    <MenuItem Header="SaveAs" Click="Save_Click"/>
-                    <MenuItem Header="LoadData" Click="Load_Click"/>
+                    <MenuItem Header="SaveAs" Click="Save_ClickAsync"/>
+                    <MenuItem Header="LoadData" Click="LoadClick"/>
+                    <MenuItem Header="LoadDataAsync" Click="LoadClickAsync"/>
                     <MenuItem x:Name="miReference" Header="Reference" Click="Reference_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="miDepartments" Header="Departments" Height="20" Width="80" 

@@ -10,10 +10,9 @@ using BankApp_WPF.View;
 using BankApp;
 using CustomerExtensions;
 using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 using Extensions;
+using System.Collections.ObjectModel;
+using System.Text.Json;
 
 namespace BankApp_WPF
 {
@@ -23,7 +22,9 @@ namespace BankApp_WPF
     public partial class MainWindow
     {
         private Bank bank;
-        private Dictionary<Department, TabItemDepartment> departmentsKey = new Dictionary<Department, TabItemDepartment>();
+        private Dictionary<Department, TabItemDepartment> departmentsKey
+            = new Dictionary<Department, TabItemDepartment>();
+        ProgressLoad progressLoad;
 
         public MainWindow()
         {
@@ -40,33 +41,108 @@ namespace BankApp_WPF
         /// </summary>
         private void CreateBank()
         {
-            CreateNewBankApp newWindow = new CreateNewBankApp();
+            var newWindow = new CreateNewBankApp();
             newWindow.ShowDialog();
             bank = new Bank(newWindow.tbBankName.Text);
 
-            if ((bool)newWindow.checkBoxRandom.IsChecked)
+            if ((bool)newWindow.checkBoxRandMillion.IsChecked)
             {
-                bank.Name = "BANK_FOR_TESTING";
+                progressLoad = new ProgressLoad();
+                progressLoad.Show();
+
+                var progress = new Progress<int>(value =>
+               {
+                   progressLoad.progressBar.Value = value;
+               });
+
+                bank.Name = "BANK_FOR_MILLION_CUSTOMER_TESTING";
 
                 var department = bank.CreateDepartment(AttributeDepartment.Persons);
                 var tabItem = new TabItemDepartment(department);
                 departmentsKey.Add(department, tabItem);
-                departmentsKey[department].AddDefaultCustomer("FirstPerson_Name")
-                          .GetCredit(1000m)
-                          .AddNewDeposit(900m)
-                          .IntroduceLogsDefaultCustomer(); //New Extensions property
-                departmentsKey[department].AddDefaultCustomer("SecondPerson_Name")
-                         .FundInitialAccount(1000m)
-                         .AddNewDeposit(500m)
-                         .AddNewDeposit(500m)
-                         .IntroduceLogsDefaultCustomer(); //New Extensions property
 
-                department = bank.CreateDepartment(AttributeDepartment.Organizations);
-                tabItem = new TabItemDepartment(department);
-                departmentsKey.Add(department, tabItem);
-                departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
-                    .IntroduceLogsDefaultCustomer();
+               CreateDefaultCustomers(department, progress);
+                //await CreateDefaultCustomersAsync(department, progress);
             }
+            else if ((bool)newWindow.checkBoxRandThree.IsChecked)
+            {
+                bank.Name = "BANK_FOR_TESTING";
+                CreateThreeCustomers();
+            }
+        }
+
+        private void CreateThreeCustomers()
+        {
+            var department = bank.CreateDepartment(AttributeDepartment.Persons);
+            var tabItem = new TabItemDepartment(department);
+            departmentsKey.Add(department, tabItem);
+            departmentsKey[department].AddDefaultCustomer("FirstPerson_Name")
+                    .GetCredit(1000m)
+                    .AddNewDeposit(900m)
+                    .IntroduceLogsDefaultCustomer(); //New Extensions property
+            departmentsKey[department].AddDefaultCustomer("SecondPerson_Name")
+                     .FundInitialAccount(1000m)
+                     .AddNewDeposit(500m)
+                     .AddNewDeposit(500m)
+                     .IntroduceLogsDefaultCustomer(); //New Extensions property
+
+            department = bank.CreateDepartment(AttributeDepartment.Organizations);
+            tabItem = new TabItemDepartment(department);
+            departmentsKey.Add(department, tabItem);
+            departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
+                .IntroduceLogsDefaultCustomer();
+        }
+
+        private Customer CreateDefaultCustomer(Department department, int i)
+        {
+            var rand = new Random();
+            var credit = rand.Next(100, 1000);
+            var customer = department.AddNewCustomer($"Person_Name_{i}");
+            customer.GetCredit(credit)
+                    .AddNewDeposit(rand.Next(0, credit))
+                    .IntroduceLogsDefaultCustomer();
+            return customer;
+        }
+
+        private void CreateDefaultCustomers(Department department, IProgress<int> progress)
+        {
+            var rand = new Random();
+            int length = 10_000;
+            int value = 0;
+            int step = length / 100;
+            for (int i = 0; i < length; i++)
+            {
+                var credit = rand.Next(100, 1000);
+                departmentsKey[department]
+                  .AddDefaultCustomer($"Person_Name_{i}")
+                      .GetCredit(credit)
+                      .AddNewDeposit(rand.Next(0, credit))
+                           .IntroduceLogsDefaultCustomer();
+                value += step;
+                progress.Report(value);
+            }
+        }
+
+        private Task CreateDefaultCustomersAsync(Department department, IProgress<int> progress)
+        {
+            return Task.Factory.StartNew(() =>
+           {
+               var rand = new Random();
+               int length = 10_000;
+               int value = 0;
+               int step = length / 100;
+               for (int i = 0; i < length; i++)
+               {
+                   var credit = rand.Next(100, 1000);
+                   departmentsKey[department]
+                      .AddDefaultCustomer($"Person_Name_{i}")
+                          .GetCredit(credit)
+                          .AddNewDeposit(rand.Next(0, credit))
+                               .IntroduceLogsDefaultCustomer();
+                   value += step;
+                   progress.Report(value);
+               }
+           });
         }
 
         /// <summary>
@@ -321,36 +397,30 @@ namespace BankApp_WPF
             }
         }
 
-        private void Save_Click(object o, RoutedEventArgs e)
+        private async void Save_ClickAsync(object o, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Title = "Dialog Save window Json Bank repository";
-            saveFileDialog.Filter = "Json files (*.json)|*.json";
-            saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Title = "Dialog Save window Json Bank repository",
+                Filter = "Json files (*.json)|*.json",
+                InitialDirectory = Directory.GetCurrentDirectory()
+            };
+
             if (saveFileDialog.ShowDialog() == true)
             {
                 string pathToSave = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
                 var serializer = new DataSerializer();
-                serializer.JsonSerialize(bank, pathToSave);
+                await serializer.JsonSerializeAsync(bank, pathToSave);
             }
         }
 
-        private async void Load_Click(object s, RoutedEventArgs e)
+        private void NextStepLoad()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Dialog Load window Json Bank repository";
-            openFileDialog.Filter = "Json files (*.json)|*.json";
-            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var deserializer = new DataSerializer();
-                bank = await deserializer.JsonDeserialize(openFileDialog.FileName);
-            }
-
             tbBankName.DataContext = bank;
             spTimer.DataContext = bank.Timer;
             tabCntrl.ItemsSource = bank.Items;
+            //await Task.Run(() =>
+            //{
 
             if (bank.Items.Count != 0)
                 foreach (var department in bank.Items)
@@ -359,6 +429,9 @@ namespace BankApp_WPF
                     departmentsKey.Add(department, tabItem);
 
                     if (department.Items.Count != 0)
+                        //Parallel.For(0, department.Items.Count, (int i) =>
+                        //{
+                        //    var customer = department.Items[i];
                         foreach (var customer in department.Items)
                         {
                             if (customer.Items.Count != 0)
@@ -388,10 +461,67 @@ namespace BankApp_WPF
                                 {
                                     customerBalanceGraphPage.InitialAccount_NewBalance(num);
                                 }
-
                             CustomerExtension.LogsRepository.Add(customer.Name, new RepLogs());
                         }
+                    //});
                 }
+            //});
+        }
+
+        private void LoadData(string path)
+        {
+            var deserializer = new DataSerializer();
+            bank = deserializer.JsonDeserialize(path);
+        }
+
+        private async Task<Bank> LoadDataAsync(string path)
+        {
+            var deserializer = new DataSerializer();
+            var bank = await deserializer.JsonDeserializeAsync(path);
+            return bank;
+        }
+
+        private async void LoadClickAsync(object s, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Title = "Dialog Load window Json Bank repository",
+                Filter = "Json files (*.json)|*.json",
+                InitialDirectory = Directory.GetCurrentDirectory()
+            };
+            bool? isClicked = openFileDialog.ShowDialog();
+
+            if (isClicked == true)
+            {
+                //var stream = File.OpenRead(openFileDialog.FileName);
+                //bank = await JsonSerializer.DeserializeAsync<Bank>
+                //    (stream, new JsonSerializerOptions
+                //    {
+                //        WriteIndented = true,
+                //        IncludeFields = true,
+                //        Converters = { new AccountJsonConverter() }
+                //    });
+                bank = await LoadDataAsync(openFileDialog.FileName);
+            }
+            NextStepLoad();
+        }
+
+        private void LoadClick(object s, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Dialog Load window Json Bank repository",
+                Filter = "Json files (*.json)|*.json",
+                InitialDirectory = Directory.GetCurrentDirectory()
+            };
+            bool? isClicked = openFileDialog.ShowDialog();
+
+            if (isClicked == true)
+            {
+                LoadData(openFileDialog.FileName);
+            }
+            NextStepLoad();
+
         }
     }
 }

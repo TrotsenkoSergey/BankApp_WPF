@@ -107,6 +107,9 @@
     <Compile Include="View\PointShapeLineFullBalancePage.cs">
       <DependentUpon>GraphFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ProgressLoad.xaml.cs">
+      <DependentUpon>ProgressLoad.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TabItemDepartment.xaml.cs">
       <DependentUpon>TabItemDepartment.xaml</DependentUpon>
     </Compile>
@@ -139,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GraphFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProgressLoad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
