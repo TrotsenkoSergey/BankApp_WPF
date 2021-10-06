@@ -49,6 +49,7 @@
             <Menu>
                 <MenuItem x:Name="miMenu" Header="Menu" Height="20" Width="40" 
                           Style="{StaticResource MenuItem}">
+                    <MenuItem Header="CreateBank" Click="CreateBank"/>
                     <MenuItem Header="SaveAs" Click="Save_ClickAsync"/>
                     <MenuItem Header="LoadData" Click="LoadClick"/>
                     <MenuItem Header="LoadDataAsync" Click="LoadClickAsync"/>

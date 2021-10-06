@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Extensions;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using System.Windows.Threading;
 
 namespace BankApp_WPF
 {
@@ -21,75 +22,84 @@ namespace BankApp_WPF
     /// </summary>
     public partial class MainWindow
     {
-        private Bank bank;
-        private Dictionary<Department, TabItemDepartment> departmentsKey
+        private Bank _bank;
+        private Dictionary<Department, TabItemDepartment> _departmentsKey
             = new Dictionary<Department, TabItemDepartment>();
-        ProgressLoad progressLoad;
+        private ProgressLoad _progressLoad;
 
         public MainWindow()
         {
             InitializeComponent();
-            CreateBank();
+            //CreateBank();
+            _bank = new Bank();
 
-            tbBankName.DataContext = bank;
-            spTimer.DataContext = bank.Timer;
-            tabCntrl.ItemsSource = bank.Items;
+            tbBankName.DataContext = _bank;
+            spTimer.DataContext = _bank.Timer;
+            tabCntrl.ItemsSource = _bank.Items;
         }
 
         /// <summary>
         /// Create Bank with random content.
         /// </summary>
-        private void CreateBank()
+        private async void CreateBank(object sender, RoutedEventArgs e)
         {
             var newWindow = new CreateNewBankApp();
             newWindow.ShowDialog();
-            bank = new Bank(newWindow.tbBankName.Text);
+            if (!String.IsNullOrEmpty(newWindow.tbBankName.Text))
+            { _bank.Name = newWindow.tbBankName.Text; }
 
             if ((bool)newWindow.checkBoxRandMillion.IsChecked)
             {
-                progressLoad = new ProgressLoad();
-                progressLoad.Show();
-
+                //Progress<int> progress = default;
+                //await Dispatcher.BeginInvoke((Action)(() =>
+                //{
+                _progressLoad = new ProgressLoad();
+                _progressLoad.Show();
                 var progress = new Progress<int>(value =>
                {
-                   progressLoad.progressBar.Value = value;
+                   _progressLoad.progressBar.Value = value;
                });
+                //}));
 
-                bank.Name = "BANK_FOR_MILLION_CUSTOMER_TESTING";
+                _bank.Name = "BANK_FOR_MILLION_CUSTOMER_TESTING";
 
-                var department = bank.CreateDepartment(AttributeDepartment.Persons);
+                var department = _bank.CreateDepartment(AttributeDepartment.Persons);
                 var tabItem = new TabItemDepartment(department);
-                departmentsKey.Add(department, tabItem);
+                _departmentsKey.Add(department, tabItem);
 
-               CreateDefaultCustomers(department, progress);
-                //await CreateDefaultCustomersAsync(department, progress);
+                //CreateDefaultCustomers(department, progress);
+                //Task t = CreateDefaultCustomersAsync(department, progress);
+                //t.Wait();
+                await CreateDefaultCustomersAsync(department, progress);
+                //var t = Task.Factory.StartNew(() => CreateDefaultCustomersAsync(department, progress, _departmentsKey));
+                //t.Wait();
             }
             else if ((bool)newWindow.checkBoxRandThree.IsChecked)
             {
-                bank.Name = "BANK_FOR_TESTING";
+                _bank.Name = "BANK_FOR_TESTING";
                 CreateThreeCustomers();
             }
         }
 
         private void CreateThreeCustomers()
         {
-            var department = bank.CreateDepartment(AttributeDepartment.Persons);
+            var department = _bank.CreateDepartment(AttributeDepartment.Persons);
             var tabItem = new TabItemDepartment(department);
-            departmentsKey.Add(department, tabItem);
-            departmentsKey[department].AddDefaultCustomer("FirstPerson_Name")
+            _departmentsKey.Add(department, tabItem);
+            _departmentsKey[department].AddDefaultCustomer("FirstPerson_Name")
                     .GetCredit(1000m)
                     .AddNewDeposit(900m)
                     .IntroduceLogsDefaultCustomer(); //New Extensions property
-            departmentsKey[department].AddDefaultCustomer("SecondPerson_Name")
+            _departmentsKey[department].AddDefaultCustomer("SecondPerson_Name")
                      .FundInitialAccount(1000m)
                      .AddNewDeposit(500m)
                      .AddNewDeposit(500m)
                      .IntroduceLogsDefaultCustomer(); //New Extensions property
 
-            department = bank.CreateDepartment(AttributeDepartment.Organizations);
+            department = _bank.CreateDepartment(AttributeDepartment.Organizations);
             tabItem = new TabItemDepartment(department);
-            departmentsKey.Add(department, tabItem);
-            departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
+            _departmentsKey.Add(department, tabItem);
+            _departmentsKey[department].AddDefaultCustomer("ORGANIZATION")
                 .IntroduceLogsDefaultCustomer();
         }
 
@@ -110,10 +120,15 @@ namespace BankApp_WPF
             int length = 10_000;
             int value = 0;
             int step = length / 100;
+            //Parallel.For(0, length, (i) =>
+            //{
+            //Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            //    () =>
+            //    {
             for (int i = 0; i < length; i++)
             {
                 var credit = rand.Next(100, 1000);
-                departmentsKey[department]
+                _departmentsKey[department]
                   .AddDefaultCustomer($"Person_Name_{i}")
                       .GetCredit(credit)
                       .AddNewDeposit(rand.Next(0, credit))
@@ -121,28 +136,30 @@ namespace BankApp_WPF
                 value += step;
                 progress.Report(value);
             }
+            //});
         }
 
-        private Task CreateDefaultCustomersAsync(Department department, IProgress<int> progress)
+        private async Task CreateDefaultCustomersAsync(Department department, IProgress<int> progress)
         {
-            return Task.Factory.StartNew(() =>
-           {
-               var rand = new Random();
-               int length = 10_000;
-               int value = 0;
-               int step = length / 100;
-               for (int i = 0; i < length; i++)
-               {
-                   var credit = rand.Next(100, 1000);
-                   departmentsKey[department]
-                      .AddDefaultCustomer($"Person_Name_{i}")
-                          .GetCredit(credit)
-                          .AddNewDeposit(rand.Next(0, credit))
-                               .IntroduceLogsDefaultCustomer();
-                   value += step;
-                   progress.Report(value);
-               }
-           });
+            var rand = new Random();
+            int length = 10_000;
+            int value = 0;
+            int step = length / 100;
+
+            await Dispatcher.BeginInvoke((Action)(() =>
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    var credit = rand.Next(100, 1000);
+                    _departmentsKey[department]
+                       .AddDefaultCustomer($"Person_Name_{i}")
+                           .GetCredit(credit)
+                           .AddNewDeposit(rand.Next(0, credit))
+                                .IntroduceLogsDefaultCustomer();
+                    value += step;
+                    progress.Report(value);
+                }
+            }));
         }
 
         /// <summary>
@@ -154,7 +171,7 @@ namespace BankApp_WPF
         {
             int months;
             Int32.TryParse(tbTimerNewNum.Text, out months);
-            bank.Timer.NextTime(months);
+            _bank.Timer.NextTime(months);
         }
 
         /// <summary>
@@ -176,7 +193,7 @@ namespace BankApp_WPF
         {
             if (tabCntrl.SelectedItem is Department department)
             {
-                var selectedTabItem = departmentsKey[department];
+                var selectedTabItem = _departmentsKey[department];
                 MainFrame.Content = selectedTabItem;
             }
         }
@@ -189,13 +206,13 @@ namespace BankApp_WPF
             if (isCorrectValue)
             {
                 var type = Enum.Parse(typeof(AttributeDepartment), departmentCreationWindow.cbAtribute.SelectedItem as String);
-                var department = bank.CreateDepartment((AttributeDepartment)type);
+                var department = _bank.CreateDepartment((AttributeDepartment)type);
                 if (!String.IsNullOrEmpty(departmentCreationWindow.tbDepartmentName.Text))
                 {
                     department.Name = departmentCreationWindow.tbDepartmentName.Text;
                 }
                 var tabItem = new TabItemDepartment(department);
-                departmentsKey.Add(department, tabItem);
+                _departmentsKey.Add(department, tabItem);
             }
         }
 
@@ -222,8 +239,8 @@ namespace BankApp_WPF
 
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    departmentsKey.Remove(department);
-                    bank.Remove(department);
+                    _departmentsKey.Remove(department);
+                    _bank.Remove(department);
                 }
             }
 
@@ -237,7 +254,7 @@ namespace BankApp_WPF
             }
             else
             {
-                departmentsKey[department].AddCustomer_MenuMainWindowClick(this);
+                _departmentsKey[department].AddCustomer_MenuMainWindowClick(this);
             }
         }
 
@@ -249,16 +266,16 @@ namespace BankApp_WPF
             }
             else
             {
-                departmentsKey[department].RemoveCustomer_MenuMainWindowClick();
+                _departmentsKey[department].RemoveCustomer_MenuMainWindowClick();
             }
         }
 
         private void MakeInitialDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer)
             {
-                departmentsKey[department].MakeInitialDeposit_MenuItemClick(this);
+                _departmentsKey[department].MakeInitialDeposit_MenuItemClick(this);
             }
             else
             {
@@ -269,9 +286,9 @@ namespace BankApp_WPF
         public void WithDrawInitialMoney_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer)
             {
-                departmentsKey[department].WithDrawInitialMoney_MenuItemClick(this);
+                _departmentsKey[department].WithDrawInitialMoney_MenuItemClick(this);
             }
             else
             {
@@ -282,9 +299,9 @@ namespace BankApp_WPF
         private void AddNewDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer)
             {
-                departmentsKey[department].AddNewDeposit_MenuItemClick(this);
+                _departmentsKey[department].AddNewDeposit_MenuItemClick(this);
             }
             else
             {
@@ -295,10 +312,10 @@ namespace BankApp_WPF
         private void WithDrawDeposit_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer &&
-                departmentsKey[department].lbAccounts.SelectedItem is Deposit)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer &&
+                _departmentsKey[department].lbAccounts.SelectedItem is Deposit)
             {
-                departmentsKey[department].WithDrawDeposit_MenuItemClick(this);
+                _departmentsKey[department].WithDrawDeposit_MenuItemClick(this);
             }
             else
             {
@@ -309,9 +326,9 @@ namespace BankApp_WPF
         private void GetCredit_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer)
             {
-                departmentsKey[department].GetCredit_MenuItemClick(this);
+                _departmentsKey[department].GetCredit_MenuItemClick(this);
             }
             else
             {
@@ -322,10 +339,10 @@ namespace BankApp_WPF
         private void RepayCredit_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer &&
-                departmentsKey[department].lbAccounts.SelectedItem is Credit)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer &&
+                _departmentsKey[department].lbAccounts.SelectedItem is Credit)
             {
-                departmentsKey[department].RepayCredit_MenuItemClick(this);
+                _departmentsKey[department].RepayCredit_MenuItemClick(this);
             }
             else
             {
@@ -336,10 +353,10 @@ namespace BankApp_WPF
         private void CloseAccount_MenuItemClick(object sender, RoutedEventArgs e)
         {
             if (tabCntrl.SelectedItem is Department department &&
-                departmentsKey[department].lbCustomers.SelectedItem is Customer &&
-                departmentsKey[department].lbAccounts.SelectedItem is Account)
+                _departmentsKey[department].lbCustomers.SelectedItem is Customer &&
+                _departmentsKey[department].lbAccounts.SelectedItem is Account)
             {
-                departmentsKey[department].CloseAccount_MenuItemClick();
+                _departmentsKey[department].CloseAccount_MenuItemClick();
             }
             else
             {
@@ -410,23 +427,19 @@ namespace BankApp_WPF
             {
                 string pathToSave = Path.Combine(saveFileDialog.InitialDirectory, saveFileDialog.FileName);
                 var serializer = new DataSerializer();
-                await serializer.JsonSerializeAsync(bank, pathToSave);
+                await serializer.JsonSerializeAsync(_bank, pathToSave);
             }
         }
 
         private void NextStepLoad()
         {
-            tbBankName.DataContext = bank;
-            spTimer.DataContext = bank.Timer;
-            tabCntrl.ItemsSource = bank.Items;
-            //await Task.Run(() =>
+            //await Task.Factory.StartNew(() =>
             //{
-
-            if (bank.Items.Count != 0)
-                foreach (var department in bank.Items)
+            if (_bank.Items.Count != 0)
+                foreach (var department in _bank.Items)
                 {
                     var tabItem = new TabItemDepartment(department);
-                    departmentsKey.Add(department, tabItem);
+                    _departmentsKey.Add(department, tabItem);
 
                     if (department.Items.Count != 0)
                         //Parallel.For(0, department.Items.Count, (int i) =>
@@ -452,10 +465,9 @@ namespace BankApp_WPF
                                         customer.InitialAccount = initialAccount;
                                     }
                                 }
-
                             var customerBalanceGraphPage = new GraphFrame();
                             customer.InitialAccount.NewBalance += customerBalanceGraphPage.InitialAccount_NewBalance;
-                            departmentsKey[department].CustomerKey.Add(customer, customerBalanceGraphPage);
+                            _departmentsKey[department].CustomerKey.Add(customer, customerBalanceGraphPage);
                             if (customer.InitialAccount.HistoryOfBalance.Count != 0)
                                 foreach (var num in customer.InitialAccount.HistoryOfBalance)
                                 {
@@ -471,7 +483,7 @@ namespace BankApp_WPF
         private void LoadData(string path)
         {
             var deserializer = new DataSerializer();
-            bank = deserializer.JsonDeserialize(path);
+            _bank = deserializer.JsonDeserialize(path);
         }
 
         private async Task<Bank> LoadDataAsync(string path)
@@ -493,16 +505,13 @@ namespace BankApp_WPF
 
             if (isClicked == true)
             {
-                //var stream = File.OpenRead(openFileDialog.FileName);
-                //bank = await JsonSerializer.DeserializeAsync<Bank>
-                //    (stream, new JsonSerializerOptions
-                //    {
-                //        WriteIndented = true,
-                //        IncludeFields = true,
-                //        Converters = { new AccountJsonConverter() }
-                //    });
-                bank = await LoadDataAsync(openFileDialog.FileName);
+                _bank = await LoadDataAsync(openFileDialog.FileName);
             }
+
+            tbBankName.DataContext = _bank;
+            spTimer.DataContext = _bank.Timer;
+            tabCntrl.ItemsSource = _bank.Items;
+            //await Dispatcher.BeginInvoke((Action)(() => NextStepLoad()));
             NextStepLoad();
         }
 
@@ -520,8 +529,12 @@ namespace BankApp_WPF
             {
                 LoadData(openFileDialog.FileName);
             }
-            NextStepLoad();
 
+            tbBankName.DataContext = _bank;
+            spTimer.DataContext = _bank.Timer;
+            tabCntrl.ItemsSource = _bank.Items;
+
+            NextStepLoad();
         }
     }
 }

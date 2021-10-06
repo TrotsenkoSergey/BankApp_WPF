@@ -8,19 +8,20 @@ namespace BankApp_WPF.View
 {
     public partial class TabItemDepartment
     {
-        private Department department;
-        public Dictionary<Customer, GraphFrame> CustomerKey { get; private set; } = new Dictionary<Customer, GraphFrame>();
+        private Department _department;
+        public Dictionary<Customer, GraphFrame> CustomerKey { get; private set; } 
+            = new Dictionary<Customer, GraphFrame>();
 
         public TabItemDepartment(Department department)
         {
             InitializeComponent();
-            this.department = department;
-            lbCustomers.ItemsSource = this.department.Items;
+            _department = department;
+            lbCustomers.ItemsSource = _department.Items;
         }
 
         public Customer AddDefaultCustomer(string name)
         {
-            Customer customer = department.AddNewCustomer(name);
+            Customer customer = _department.AddNewCustomer(name);
             var fullBalanceGraphPage = new GraphFrame();
             customer.InitialAccount.NewBalance += fullBalanceGraphPage.InitialAccount_NewBalance;
             CustomerKey.Add(customer, fullBalanceGraphPage);
@@ -48,8 +49,8 @@ namespace BankApp_WPF.View
                     customer.InitialAccount.NewBalance -= CustomerKey[customer].InitialAccount_NewBalance;
                     customer.Remove(customer.InitialAccount);
                     CustomerKey.Remove(customer);
-                    CustomerExtension.LogsRepository.Remove(customer.Name); //New Extensions property
-                    department.Remove(customer);
+                    _ = CustomerExtension.LogsRepository.Remove(customer.Name); //New Extensions property
+                    _department.Remove(customer);
                 }
             }
         }
